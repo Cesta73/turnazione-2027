@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nuova turnazione · lavoratori</title>
+<meta name="description" content="La proposta di nuova turnazione spiegata a chi lavora in turno, con il calendario 2027 squadra per squadra.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: colonna centrale; hero con i numeri chiave, spiegazione a schede, ciclo, calendario interattivo, confronto, cose da fare */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --fg:#17202b; --muted:#5a6676; --line:#dce2ea; --soft:#eaeef3;
+  --accent:#0f6fb8; --accent-fg:#ffffff; --good:#1f8a4c; --warn:#b5651d;
+  --m:#ffd45c; --m-fg:#3b2c00; --p:#ff9a62; --p-fg:#3f1700; --n:#2c3d8f; --n-fg:#ffffff;
+  --g:#3fbf7a; --g-fg:#04301a; --s:#cdd4de; --s-fg:#35404f; --f:#efb4b4; --f-fg:#5a1414; --r-fg:#a2abb8;
+  --free:#0f6fb8;
+  --display:"Archivo","Inter",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#10151c; --surface:#18202a; --fg:#e7ecf2; --muted:#9aa6b6; --line:#2a3442; --soft:#212a36;
+  --accent:#5fa8e8; --accent-fg:#06121f; --good:#5cc98a; --warn:#e3a061;
+  --m:#d8b03e; --m-fg:#1e1600; --p:#de7f4a; --p-fg:#250d00; --n:#4c63d4; --n-fg:#ffffff;
+  --g:#3aa76b; --g-fg:#02190c; --s:#3a4454; --s-fg:#d0d7e1; --f:#6c2c2c; --f-fg:#ffdada; --r-fg:#5b6676;
+  --free:#5fa8e8; color-scheme:dark;}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,6vw,54px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.4vw,32px);font-weight:700}
+h3{font-size:18px;font-weight:700}
+p{margin:0;max-width:66ch}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+section{display:flex;flex-direction:column;gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+/* hero */
+.hero{display:flex;flex-direction:column;gap:18px;padding-top:8px}
+.hero .lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.kpi .lab{font-size:13px;color:var(--muted)}
+.kpi .val{font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.kpi .old{font-size:18px;font-weight:500;color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.kpi .arrow{font-size:18px;color:var(--muted);font-weight:500}
+.kpi .note{font-size:13px;color:var(--muted)}
+.kpi.up .val span.new{color:var(--good)}
+.kpi.cost .val span.new{color:var(--warn)}
+.banner{border-left:4px solid var(--warn);background:var(--surface);border-radius:8px;padding:12px 16px;font-size:14px;color:var(--muted)}
+/* tabs */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button,.seg button{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.tabs button[aria-selected="true"],.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel{display:flex;flex-direction:column;gap:14px}
+.panel ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
+/* cycle */
+.cycles{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:860px){.cycles{grid-template-columns:2fr 3fr}}
+.cyc{display:flex;flex-direction:column;gap:12px;min-width:0}
+.grid{overflow-x:auto}
+table{border-collapse:separate;border-spacing:3px;font-variant-numeric:tabular-nums}
+th{font-size:12px;font-weight:500;color:var(--muted);padding:0 2px;text-align:center}
+td.c{width:34px;min-width:34px;height:34px;text-align:center;border-radius:6px;font-weight:700;font-size:13px;cursor:default}
+th.rowh{text-align:left;padding-right:8px;white-space:nowrap;color:var(--fg);font-weight:600}
+.cM{background:var(--m);color:var(--m-fg)}.cP{background:var(--p);color:var(--p-fg)}.cN{background:var(--n);color:var(--n-fg)}
+.cG{background:var(--g);color:var(--g-fg)}.cS{background:var(--s);color:var(--s-fg)}.cF{background:var(--f);color:var(--f-fg)}
+.cR{background:transparent;color:var(--r-fg);font-weight:500;box-shadow:inset 0 0 0 1px var(--line)}
+td.wfree{box-shadow:inset 0 0 0 2px var(--free);color:var(--free)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.chip{display:inline-flex;width:22px;height:22px;border-radius:5px;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.info{font-size:14px;color:var(--muted);min-height:1.55em}
+/* calendar */
+.controls{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl .lab{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.monthnav{display:flex;align-items:center;gap:8px}
+.monthnav button{font:inherit;font-weight:700;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.monthnav strong{font-family:var(--display);font-size:20px;min-width:150px;text-align:center}
+.cal td.c{width:28px;min-width:28px;height:30px;font-size:12px;border-radius:5px}
+.cal th.d{width:28px}
+.cal th.we{color:var(--fg)}
+.cal th.hol{color:var(--good);font-weight:700}
+.cal th.stop{color:var(--f-fg);background:var(--f);border-radius:4px}
+.cal tr.sep td,.cal tr.sep th{padding-top:10px}
+.calsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.calsum .kpi .val{font-size:24px}
+/* compare table */
+.cmp{width:100%;border-collapse:collapse;font-size:15px}
+.cmp th,.cmp td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.cmp td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.cmp td.plus{color:var(--good);font-weight:600}.cmp td.minus{color:var(--warn);font-weight:600}
+.two{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.list li{display:flex;gap:10px;align-items:flex-start}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:8px}
+.dot.good{background:var(--good)}.dot.warn{background:var(--warn)}
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.steps li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding-bottom:20px;position:relative}
+.steps li:not(:last-child)::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--line)}
+.steps .num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--display);border:2px solid var(--accent);color:var(--accent);background:var(--surface)}
+.steps .done .num{background:var(--accent);color:var(--accent-fg)}
+.steps h3{margin-top:6px}
+.steps p{color:var(--muted);font-size:15px;margin-top:4px}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:6px}
+@media (prefers-reduced-motion: no-preference){td.c{transition:transform .12s}td.c:hover{transform:scale(1.08)}}
+.topnav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;font-weight:600}
+.topnav a{color:var(--accent);text-decoration:none}.topnav a:hover{text-decoration:underline}
+.choose{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:720px){.choose{grid-template-columns:1fr 1fr}}
+a.door{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;transition:border-color .15s}
+a.door:hover,a.door:focus-visible{border-color:var(--accent)}a.door .go{color:var(--accent);font-weight:700;margin-top:auto}
+a.door h2{font-size:26px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="topnav"><a href="./">Nuova turnazione 2027</a><a href="direzione.html">Pagina per la direzione →</a></nav>
+<header class="hero">
+  <span class="eyebrow">Per chi lavora in turno · proposta RSU</span>
+  <h1>Più weekend liberi, stesse notti.</h1>
+  <p class="lead">Una nuova turnazione da 8 ore con un ciclo di 5 settimane. Qui la vedi a confronto con quella di oggi, sul calendario reale del 2027, squadra per squadra.</p>
+  <div class="kpis" id="kpis"></div>
+  <div class="banner">È una proposta in discussione, non un accordo firmato. I numeri sono calcolati sul 2027 e possono ancora cambiare.</div>
+</header>
+<section id="spiegazione">
+  <span class="eyebrow">In parole semplici</span>
+  <h2>Cosa proponiamo</h2>
+  <div class="card panel" role="tabpanel" id="panel-op">
+    <p><strong>Oggi</strong> giriamo su un ciclo di 10 giorni: due mattine, due notti, smonto, riposo, due pomeriggi, due riposi. Il risultato è che un weekend tutto libero capita più o meno una volta ogni due mesi, e spesso il sabato lo passi a dormire dopo la notte.</p>
+    <p><strong>Con la proposta</strong> il ciclo dura 5 settimane ed è sempre uguale. In quelle 5 settimane hai <strong>2 weekend completamente liberi</strong>, e uno dei due è lungo, da venerdì a domenica. In un anno passi da circa 7 a circa 21 weekend liberi.</p>
+    <ul>
+      <li>Le notti restano le stesse di oggi, circa 70 all'anno. Le maggiorazioni in busta non cambiano.</li>
+      <li>Il giro va sempre in avanti: mattina, pomeriggio, notte. Dopo le notti hai sempre lo smonto e almeno un giorno di riposo.</li>
+      <li>Non lavori mai più di 5 giorni di fila.</li>
+      <li>Sai con anni di anticipo quali weekend sei a casa: il ciclo non cambia mai.</li>
+    </ul>
+    <p><strong>Cosa ci costa:</strong> due volte ogni 5 settimane facciamo una mattina in più, la giornata <span class="chip cG">G</span>, dedicata a manutenzione e formazione. Sono circa 20 giorni di presenza in più all'anno. In cambio chiediamo all'azienda ferie e permessi liberi garantiti, più di quelli di oggi.</p>
+  </div>
+  
+</section>
+<section id="ciclo">
+  <span class="eyebrow">Il cuore della proposta</span>
+  <h2>I due cicli a confronto</h2>
+  <p class="muted">Ogni squadra fa lo stesso ciclo, sfalsata rispetto alle altre. Tocca o passa sopra una casella per leggerla.</p>
+  <div class="legend" id="legend"></div>
+  <div class="cycles">
+    <div class="card cyc"><h3>Oggi · ciclo di 10 giorni</h3><div class="grid"><table id="cyc-old"></table></div><p class="muted" style="font-size:14px">6 turni ogni 10 giorni. I giorni liberi cadono ogni volta in un giorno diverso della settimana.</p></div>
+    <div class="card cyc"><h3>Proposta · ciclo di 5 settimane</h3><div class="grid"><table id="cyc-new"></table></div><p class="muted" style="font-size:14px">23 turni ogni 5 settimane. Le settimane 1 e 2 finiscono con un weekend libero. Questa settimana la squadra A fa la riga 1, la B la riga 2 e così via; la settimana dopo ognuna scende di una riga.</p></div>
+  </div>
+  <p class="info" id="cyc-info" aria-live="polite"></p>
+</section>
+<section id="calendario">
+  <span class="eyebrow">Calendario 2027</span>
+  <h2>Il tuo anno, giorno per giorno</h2>
+  <div class="controls">
+    <div class="ctl"><span class="lab">Vista</span><div class="seg" id="ctl-view"></div></div>
+    <div class="ctl"><span class="lab">Squadra</span><div class="seg" id="ctl-squad"></div></div>
+    <div class="ctl"><span class="lab">Mese</span><div class="monthnav"><button type="button" id="prev" aria-label="Mese precedente">‹</button><strong id="mlabel"></strong><button type="button" id="next" aria-label="Mese successivo">›</button></div></div>
+  </div>
+  <div class="calsum" id="calsum"></div>
+  <div class="card grid"><table class="cal" id="cal"></table></div>
+  <div class="legend"><span><span class="chip cR wfree" style="box-shadow:inset 0 0 0 2px var(--free)"></span>Weekend tutto libero</span><span><span class="chip" style="color:var(--good)">6</span>Festivo</span><span><span class="chip cF">25</span>Fermata</span></div>
+</section>
+<section id="numeri">
+  <span class="eyebrow">I numeri</span>
+  <h2>Cosa cambia in un anno</h2>
+  <div class="seg" id="ctl-squad2"></div>
+  <div class="card grid"><table class="cmp" id="cmp"></table></div>
+  <div class="two">
+    <div class="card"><h3 style="margin-bottom:12px">Cosa ci guadagni</h3><ul class="list">
+      <li><span class="dot good"></span><span>Circa 21 weekend tutti liberi all'anno invece di 7, metà dei quali lunghi.</span></li>
+      <li><span class="dot good"></span><span>Mai più un sabato o una domenica passati a recuperare dalla notte.</span></li>
+      <li><span class="dot good"></span><span>Lavori e riposi sempre negli stessi giorni della settimana: famiglia, sport e impegni si organizzano meglio.</span></li>
+      <li><span class="dot good"></span><span>Ferie e permessi liberi in più, se l'accordo li garantisce.</span></li>
+      <li><span class="dot good"></span><span>Formazione e affiancamento in orario di lavoro.</span></li>
+    </ul></div>
+    <div class="card"><h3 style="margin-bottom:12px">Cosa ci costa</h3><ul class="list">
+      <li><span class="dot warn"></span><span>Circa 20 giorni di presenza in più all'anno, per le giornate G.</span></li>
+      <li><span class="dot warn"></span><span>Meno riposi infrasettimanali: da circa 76 a circa 41.</span></li>
+      <li><span class="dot warn"></span><span>Tre weekend su cinque si lavorano interi.</span></li>
+      <li><span class="dot warn"></span><span>Una volta per ciclo 5 giorni di fila che finiscono con 3 notti, nel weekend.</span></li>
+      <li><span class="dot warn"></span><span>Nella quinta settimana il martedì è l'unico riposo tra due blocchi: 9 giorni di lavoro su 10.</span></li>
+    </ul></div>
+  </div>
+</section>
+<section id="prossimi-passi">
+  <span class="eyebrow">A che punto siamo</span>
+  <h2>Cosa è fatto e cosa resta da fare</h2>
+  <ol class="steps">
+    <li class="done"><span class="num">1</span><div><h3>Proposta di turnazione</h3><p>Ciclo di 5 settimane, calendario 2027 completo per le cinque squadre, verifica dei riposi di legge e dei conteggi di ore.</p></div></li>
+    <li><span class="num">2</span><div><h3>Ascoltare i colleghi</h3><p>Raccogliere pareri e dubbi nelle squadre prima di andare dalla direzione. La proposta può cambiare.</p></div></li>
+    <li><span class="num">3</span><div><h3>Verifiche tecniche e legali</h3><p>Far controllare la proposta dal sindacato territoriale e da un consulente del lavoro.</p></div></li>
+    <li><span class="num">4</span><div><h3>Presentazione alla direzione</h3><p>Discutere turnazione, ferie e permessi garantiti, trattamento delle giornate G, organici e mansioni chiave.</p></div></li>
+    <li><span class="num">5</span><div><h3>Sperimentazione di 6 mesi</h3><p>Se c'è l'accordo, una prova con verifica congiunta su assenze, straordinari, infortuni e fermi impianto, e la possibilità di tornare indietro.</p></div></li>
+    <li><span class="num">6</span><div><h3>Accordo definitivo</h3><p>Solo dopo la verifica, e dopo aver sentito i lavoratori.</p></div></li>
+  </ol>
+</section>
+<footer>
+  <p>Orari: mattina 7–15, pomeriggio 15–23, notte 23–7. Fermate 2027: 1 gennaio, Pasqua e Pasquetta (28–29 marzo), 1 maggio, dal 25 al 31 dicembre; la produzione si ferma alle 23 del giorno prima e riparte alle 7 del giorno dopo.</p>
+  <p>Weekend libero: nessun turno sabato e domenica e nessuna notte il venerdì. Il punto di partenza di ogni squadra nel ciclo è un'ipotesi: le squadre reali potrebbero essere sfalsate in modo diverso, ma i totali annui restano molto simili.</p>
+</footer>
+</div>
+<script>
+const DATA={"days":[[1,1,4,2],[1,2,5,0],[1,3,6,0],[1,4,0,0],[1,5,1,0],[1,6,2,1],[1,7,3,0],[1,8,4,0],[1,9,5,0],[1,10,6,0],[1,11,0,0],[1,12,1,0],[1,13,2,0],[1,14,3,0],[1,15,4,0],[1,16,5,0],[1,17,6,0],[1,18,0,0],[1,19,1,0],[1,20,2,0],[1,21,3,0],[1,22,4,0],[1,23,5,0],[1,24,6,0],[1,25,0,0],[1,26,1,0],[1,27,2,0],[1,28,3,0],[1,29,4,0],[1,30,5,0],[1,31,6,0],[2,1,0,0],[2,2,1,0],[2,3,2,0],[2,4,3,0],[2,5,4,0],[2,6,5,0],[2,7,6,0],[2,8,0,0],[2,9,1,0],[2,10,2,0],[2,11,3,0],[2,12,4,0],[2,13,5,0],[2,14,6,0],[2,15,0,0],[2,16,1,0],[2,17,2,0],[2,18,3,0],[2,19,4,0],[2,20,5,0],[2,21,6,0],[2,22,0,0],[2,23,1,0],[2,24,2,0],[2,25,3,0],[2,26,4,0],[2,27,5,0],[2,28,6,0],[3,1,0,0],[3,2,1,0],[3,3,2,0],[3,4,3,0],[3,5,4,0],[3,6,5,0],[3,7,6,0],[3,8,0,0],[3,9,1,0],[3,10,2,0],[3,11,3,0],[3,12,4,0],[3,13,5,0],[3,14,6,0],[3,15,0,0],[3,16,1,0],[3,17,2,0],[3,18,3,0],[3,19,4,0],[3,20,5,0],[3,21,6,0],[3,22,0,0],[3,23,1,0],[3,24,2,0],[3,25,3,0],[3,26,4,0],[3,27,5,0],[3,28,6,2],[3,29,0,2],[3,30,1,0],[3,31,2,0],[4,1,3,0],[4,2,4,0],[4,3,5,0],[4,4,6,0],[4,5,0,0],[4,6,1,0],[4,7,2,0],[4,8,3,0],[4,9,4,0],[4,10,5,0],[4,11,6,0],[4,12,0,0],[4,13,1,0],[4,14,2,0],[4,15,3,0],[4,16,4,0],[4,17,5,0],[4,18,6,0],[4,19,0,0],[4,20,1,0],[4,21,2,0],[4,22,3,0],[4,23,4,0],[4,24,5,0],[4,25,6,1],[4,26,0,0],[4,27,1,0],[4,28,2,0],[4,29,3,0],[4,30,4,0],[5,1,5,2],[5,2,6,0],[5,3,0,0],[5,4,1,0],[5,5,2,0],[5,6,3,0],[5,7,4,0],[5,8,5,0],[5,9,6,0],[5,10,0,0],[5,11,1,0],[5,12,2,0],[5,13,3,0],[5,14,4,0],[5,15,5,0],[5,16,6,0],[5,17,0,0],[5,18,1,0],[5,19,2,0],[5,20,3,0],[5,21,4,0],[5,22,5,0],[5,23,6,0],[5,24,0,0],[5,25,1,0],[5,26,2,0],[5,27,3,0],[5,28,4,0],[5,29,5,0],[5,30,6,0],[5,31,0,0],[6,1,1,0],[6,2,2,1],[6,3,3,0],[6,4,4,0],[6,5,5,0],[6,6,6,0],[6,7,0,0],[6,8,1,0],[6,9,2,0],[6,10,3,0],[6,11,4,0],[6,12,5,0],[6,13,6,0],[6,14,0,0],[6,15,1,0],[6,16,2,0],[6,17,3,0],[6,18,4,0],[6,19,5,0],[6,20,6,0],[6,21,0,0],[6,22,1,0],[6,23,2,0],[6,24,3,0],[6,25,4,0],[6,26,5,0],[6,27,6,0],[6,28,0,0],[6,29,1,0],[6,30,2,0],[7,1,3,0],[7,2,4,0],[7,3,5,0],[7,4,6,0],[7,5,0,0],[7,6,1,0],[7,7,2,0],[7,8,3,0],[7,9,4,0],[7,10,5,0],[7,11,6,0],[7,12,0,0],[7,13,1,0],[7,14,2,0],[7,15,3,0],[7,16,4,0],[7,17,5,0],[7,18,6,0],[7,19,0,0],[7,20,1,0],[7,21,2,0],[7,22,3,0],[7,23,4,0],[7,24,5,0],[7,25,6,0],[7,26,0,0],[7,27,1,0],[7,28,2,0],[7,29,3,0],[7,30,4,0],[7,31,5,0],[8,1,6,0],[8,2,0,0],[8,3,1,0],[8,4,2,0],[8,5,3,0],[8,6,4,0],[8,7,5,0],[8,8,6,0],[8,9,0,0],[8,10,1,0],[8,11,2,0],[8,12,3,0],[8,13,4,0],[8,14,5,0],[8,15,6,1],[8,16,0,0],[8,17,1,0],[8,18,2,0],[8,19,3,0],[8,20,4,0],[8,21,5,0],[8,22,6,0],[8,23,0,0],[8,24,1,0],[8,25,2,0],[8,26,3,0],[8,27,4,0],[8,28,5,0],[8,29,6,0],[8,30,0,0],[8,31,1,0],[9,1,2,0],[9,2,3,0],[9,3,4,0],[9,4,5,0],[9,5,6,0],[9,6,0,0],[9,7,1,0],[9,8,2,0],[9,9,3,0],[9,10,4,0],[9,11,5,0],[9,12,6,0],[9,13,0,0],[9,14,1,0],[9,15,2,0],[9,16,3,0],[9,17,4,0],[9,18,5,0],[9,19,6,0],[9,20,0,0],[9,21,1,0],[9,22,2,0],[9,23,3,0],[9,24,4,0],[9,25,5,0],[9,26,6,0],[9,27,0,0],[9,28,1,0],[9,29,2,0],[9,30,3,0],[10,1,4,0],[10,2,5,0],[10,3,6,0],[10,4,0,1],[10,5,1,0],[10,6,2,0],[10,7,3,0],[10,8,4,0],[10,9,5,0],[10,10,6,0],[10,11,0,0],[10,12,1,0],[10,13,2,0],[10,14,3,0],[10,15,4,0],[10,16,5,0],[10,17,6,0],[10,18,0,0],[10,19,1,0],[10,20,2,0],[10,21,3,0],[10,22,4,0],[10,23,5,0],[10,24,6,0],[10,25,0,0],[10,26,1,0],[10,27,2,0],[10,28,3,0],[10,29,4,0],[10,30,5,0],[10,31,6,0],[11,1,0,1],[11,2,1,0],[11,3,2,0],[11,4,3,0],[11,5,4,0],[11,6,5,0],[11,7,6,0],[11,8,0,0],[11,9,1,0],[11,10,2,0],[11,11,3,0],[11,12,4,0],[11,13,5,0],[11,14,6,0],[11,15,0,0],[11,16,1,0],[11,17,2,0],[11,18,3,0],[11,19,4,0],[11,20,5,0],[11,21,6,0],[11,22,0,0],[11,23,1,0],[11,24,2,0],[11,25,3,0],[11,26,4,0],[11,27,5,0],[11,28,6,0],[11,29,0,0],[11,30,1,0],[12,1,2,0],[12,2,3,0],[12,3,4,0],[12,4,5,0],[12,5,6,0],[12,6,0,0],[12,7,1,0],[12,8,2,1],[12,9,3,0],[12,10,4,0],[12,11,5,0],[12,12,6,0],[12,13,0,0],[12,14,1,0],[12,15,2,0],[12,16,3,0],[12,17,4,0],[12,18,5,0],[12,19,6,0],[12,20,0,0],[12,21,1,0],[12,22,2,0],[12,23,3,0],[12,24,4,0],[12,25,5,2],[12,26,6,2],[12,27,0,2],[12,28,1,2],[12,29,2,2],[12,30,3,2],[12,31,4,2]],"nuovo":["FRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPFFNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRFPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSFFFFFFF","FRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMFFRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMFMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRFFFFFFF","FPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNFFFRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMFFNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMFFFFFFF","FMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRFFMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPFRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMFFFFFFFF","FNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRFFPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSFRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMGRMMNNNSRGPPFFFFFFF"],"vecchio":["FRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRFFNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNFFRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMFFFFFFF","FPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMFFRRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRFPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNFFFFFFFF","FRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNFFFPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPFRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRFFFFFFF","FMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRFFRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRFMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPFFFFFFF","FNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPFFMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMFNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRFFFFFFF"],"stats":{"nuovo":[{"presenze":231,"notti":70,"weekend":22,"lunghi":12,"we_lav":58,"we_riposo":42,"we_smonto":0,"g":20},{"presenze":230,"notti":71,"weekend":22,"lunghi":12,"we_lav":58,"we_riposo":42,"we_smonto":0,"g":19},{"presenze":231,"notti":68,"weekend":21,"lunghi":11,"we_lav":59,"we_riposo":40,"we_smonto":0,"g":20},{"presenze":234,"notti":70,"weekend":21,"lunghi":12,"we_lav":62,"we_riposo":38,"we_smonto":0,"g":21},{"presenze":234,"notti":72,"weekend":21,"lunghi":11,"we_lav":62,"we_riposo":38,"we_smonto":0,"g":21}],"vecchio":[{"presenze":211,"notti":69,"weekend":8,"lunghi":3,"we_lav":60,"we_riposo":31,"we_smonto":9,"g":0},{"presenze":211,"notti":69,"weekend":6,"lunghi":1,"we_lav":59,"we_riposo":31,"we_smonto":10,"g":0},{"presenze":213,"notti":71,"weekend":6,"lunghi":1,"we_lav":60,"we_riposo":30,"we_smonto":9,"g":0},{"presenze":212,"notti":72,"weekend":7,"lunghi":2,"we_lav":60,"we_riposo":30,"we_smonto":10,"g":0},{"presenze":212,"notti":70,"weekend":6,"lunghi":1,"we_lav":60,"we_riposo":29,"we_smonto":11,"g":0}]}};
+const SQ="ABCDE";
+const MESI=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+const WD=["L","M","M","G","V","S","D"];
+const LEG={M:"Mattina 7–15",P:"Pomeriggio 15–23",N:"Notte 23–7",G:"Giornata G: seconda squadra in mattina, 7–15",S:"Smonto: si esce alle 7 dopo la notte",R:"Riposo",F:"Fermata impianto"};
+const $=id=>document.getElementById(id);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const avg=(k,f)=>DATA.stats[k].reduce((a,s)=>a+s[f],0)/5;
+const r0=x=>Math.round(x);
+
+/* KPI */
+$("kpis").innerHTML=[
+ ["up","Weekend tutti liberi all'anno",r0(avg("vecchio","weekend")),r0(avg("nuovo","weekend")),"media per lavoratore, 2027"],
+ ["up","Weekend lunghi, 3 giorni o più",r0(avg("vecchio","lunghi")),r0(avg("nuovo","lunghi")),"venerdì o lunedì liberi attaccati"],
+ ["","Notti all'anno",r0(avg("vecchio","notti")),r0(avg("nuovo","notti")),"invariate"],
+ ["cost","Giorni di presenza all'anno",r0(avg("vecchio","presenze")),r0(avg("nuovo","presenze")),"le giornate G per manutenzione e formazione"]
+].map(([c,l,o,n,note])=>`<div class="kpi ${c}"><span class="lab">${l}</span><span class="val"><span class="old">${o}</span><span class="arrow">→</span><span class="new">${n}</span></span><span class="note">${note}</span></div>`).join("");
+
+
+
+/* legend + cycles */
+$("legend").innerHTML="MPNGSRF".split("").map(c=>`<span><span class="chip c${c}">${c==="R"?"·":c}</span>${LEG[c].split(":")[0]}</span>`).join("");
+const cell=(c,extra="")=>`<td class="c c${c} ${extra}" title="${LEG[c]}" data-c="${c}">${c==="R"?"·":c}</td>`;
+const OLD="MMNNSRPPRR".split("");
+$("cyc-old").innerHTML="<tr>"+OLD.map((_,i)=>`<th>${i+1}</th>`).join("")+"</tr><tr>"+OLD.map(c=>cell(c)).join("")+"</tr>";
+const NEW=["SRGPPRR","MMPNSRR","PPNSRPP","NNSRMMM","GRMMNNN"];
+$("cyc-new").innerHTML="<tr><th></th>"+["Lun","Mar","Mer","Gio","Ven","Sab","Dom"].map(d=>`<th>${d}</th>`).join("")+"</tr>"+
+ NEW.map((w,i)=>`<tr><th class="rowh">Sett. ${i+1}</th>${w.split("").map((c,j)=>cell(c,(i<2&&j>4)?"wfree":"")).join("")}</tr>`).join("");
+function bindInfo(root){root.addEventListener("pointerover",e=>{const t=e.target.closest("td.c");if(t)$("cyc-info").textContent=LEG[t.dataset.c]});
+ root.addEventListener("click",e=>{const t=e.target.closest("td.c");if(t)$("cyc-info").textContent=LEG[t.dataset.c]})}
+bindInfo($("cyc-old"));bindInfo($("cyc-new"));
+
+/* calendar */
+let view=store.get("tv","nuovo"),squad=+store.get("tq","0"),month=+store.get("tm",String(new Date().getFullYear()===2027?new Date().getMonth():0));
+if(!["nuovo","vecchio","confronto"].includes(view))view="nuovo";
+if(!(squad>=0&&squad<=5))squad=0; if(!(month>=0&&month<=11))month=0;
+const VIEWS=[["nuovo","Proposta"],["vecchio","Oggi"],["confronto","Oggi e proposta"]];
+function seg(id,items,cur,cb){const el=$(id);el.innerHTML="";items.forEach(([v,t])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.setAttribute("aria-pressed",String(v===cur));b.onclick=()=>cb(v);el.appendChild(b)})}
+function freeSet(seq){const s=new Set();DATA.days.forEach((d,i)=>{if(d[2]===5&&i+1<365&&"RF".includes(seq[i])&&"RF".includes(seq[i+1])&&(i===0||seq[i-1]!=="N")){s.add(i);s.add(i+1)}});return s}
+const FREE={nuovo:DATA.nuovo.map(freeSet),vecchio:DATA.vecchio.map(freeSet)};
+function renderCal(){
+  const sqItems=[[0,"Tutte"],...[1,2,3,4,5].map(i=>[i,SQ[i-1]])];
+  if(view==="confronto"&&squad===0)squad=1;
+  seg("ctl-view",VIEWS,view,v=>{view=v;save();renderCal()});
+  seg("ctl-squad",view==="confronto"?sqItems.slice(1):sqItems,squad,v=>{squad=v;save();renderCal()});
+  $("mlabel").textContent=MESI[month]+" 2027";
+  const idx=DATA.days.map((d,i)=>[d,i]).filter(([d])=>d[0]===month+1);
+  let h="<tr><th></th>"+idx.map(([d])=>`<th class="d ${d[3]===2?"stop":d[3]===1?"hol":d[2]>=5?"we":""}">${d[1]}</th>`).join("")+"</tr>";
+  h+="<tr><th></th>"+idx.map(([d])=>`<th class="${d[2]>=5?"we":""}">${WD[d[2]]}</th>`).join("")+"</tr>";
+  const row=(label,k,s)=>`<tr><th class="rowh">${label}</th>`+idx.map(([d,i])=>{const c=DATA[k][s][i];return cell(c,FREE[k][s].has(i)?"wfree":"")}).join("")+"</tr>";
+  if(view==="confronto"){h+=row("Oggi","vecchio",squad-1)+row("Proposta","nuovo",squad-1)}
+  else{const list=squad?[squad-1]:[0,1,2,3,4];list.forEach(s=>{h+=row("Squadra "+SQ[s],view,s)})}
+  $("cal").innerHTML=h;
+  // month summary
+  const sq=squad?[squad-1]:[0,1,2,3,4];
+  const cnt=(k,f)=>sq.reduce((a,s)=>a+idx.filter(([d,i])=>f(DATA[k][s][i],d,i,s)).length,0)/sq.length;
+  const fw=(k)=>sq.reduce((a,s)=>a+idx.filter(([d,i])=>d[2]===5&&FREE[k][s].has(i)).length,0)/sq.length;
+  const fmt=x=>Number.isInteger(x)?x:x.toFixed(1).replace(".",",");
+  const who=squad?"squadra "+SQ[squad-1]:"media squadre";
+  const ks=view==="confronto"?["vecchio","nuovo"]:[view];
+  const box=(lab,f)=>`<div class="kpi"><span class="lab">${lab}</span><span class="val">${ks.map((k,j)=>`<span class="${j===0&&ks.length>1?"old":"new"}">${fmt(f(k))}</span>`).join('<span class="arrow">→</span>')}</span><span class="note">${MESI[month]}, ${who}</span></div>`;
+  $("calsum").innerHTML=box("Weekend liberi",fw)+box("Giorni di presenza",k=>cnt(k,c=>"MPNG".includes(c)))+box("Notti",k=>cnt(k,c=>c==="N"))+box("Giornate G",k=>cnt(k,c=>c==="G"));
+}
+function save(){store.set("tv",view);store.set("tq",String(squad));store.set("tm",String(month))}
+$("prev").onclick=()=>{month=(month+11)%12;save();renderCal()};
+$("next").onclick=()=>{month=(month+1)%12;save();renderCal()};
+renderCal();
+
+/* comparison table */
+let sq2=0;
+function renderCmp(){
+  seg("ctl-squad2",[[0,"Media"],...[1,2,3,4,5].map(i=>[i,"Squadra "+SQ[i-1]])],sq2,v=>{sq2=v;renderCmp()});
+  const g=(k,f)=>sq2?DATA.stats[k][sq2-1][f]:avg(k,f);
+  const rows=[["Weekend tutti liberi","weekend",1],["Weekend lunghi","lunghi",1],["Sabati e domeniche di riposo","we_riposo",1],["Sabati e domeniche di smonto","we_smonto",-1],["Sabati e domeniche lavorati","we_lav",-1],["Notti","notti",-1],["Giornate G (manutenzione e formazione)","g",0],["Giorni di presenza","presenze",-1]];
+  let h="<tr><th>Nel 2027</th><th>Oggi</th><th>Proposta</th><th>Differenza</th></tr>";
+  rows.forEach(([l,f,sign])=>{const o=r0(g("vecchio",f)),n=r0(g("nuovo",f)),d=n-o;
+    const cls=d===0||sign===0?"":(d*sign>0?"plus":"minus");
+    h+=`<tr><td>${l}</td><td class="n">${o}</td><td class="n">${n}</td><td class="n ${cls}">${d>0?"+":""}${d===0?"uguale":d}</td></tr>`});
+  $("cmp").innerHTML=h;
+}
+renderCmp();
+
+</script>
+</body>
+</html>

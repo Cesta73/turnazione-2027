@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nuova turnazione 2027</title>
+<meta name="description" content="La proposta di nuova turnazione a ciclo continuo, a confronto con quella di oggi, sul calendario reale 2027.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: colonna centrale; hero con i numeri chiave, spiegazione a schede, ciclo, calendario interattivo, confronto, cose da fare */
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --fg:#17202b; --muted:#5a6676; --line:#dce2ea; --soft:#eaeef3;
+  --accent:#0f6fb8; --accent-fg:#ffffff; --good:#1f8a4c; --warn:#b5651d;
+  --m:#ffd45c; --m-fg:#3b2c00; --p:#ff9a62; --p-fg:#3f1700; --n:#2c3d8f; --n-fg:#ffffff;
+  --g:#3fbf7a; --g-fg:#04301a; --s:#cdd4de; --s-fg:#35404f; --f:#efb4b4; --f-fg:#5a1414; --r-fg:#a2abb8;
+  --free:#0f6fb8;
+  --display:"Archivo","Inter",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#10151c; --surface:#18202a; --fg:#e7ecf2; --muted:#9aa6b6; --line:#2a3442; --soft:#212a36;
+  --accent:#5fa8e8; --accent-fg:#06121f; --good:#5cc98a; --warn:#e3a061;
+  --m:#d8b03e; --m-fg:#1e1600; --p:#de7f4a; --p-fg:#250d00; --n:#4c63d4; --n-fg:#ffffff;
+  --g:#3aa76b; --g-fg:#02190c; --s:#3a4454; --s-fg:#d0d7e1; --f:#6c2c2c; --f-fg:#ffdada; --r-fg:#5b6676;
+  --free:#5fa8e8; color-scheme:dark;}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
+h1{font-size:clamp(32px,6vw,54px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.4vw,32px);font-weight:700}
+h3{font-size:18px;font-weight:700}
+p{margin:0;max-width:66ch}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
+section{display:flex;flex-direction:column;gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+/* hero */
+.hero{display:flex;flex-direction:column;gap:18px;padding-top:8px}
+.hero .lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.kpi .lab{font-size:13px;color:var(--muted)}
+.kpi .val{font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.kpi .old{font-size:18px;font-weight:500;color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
+.kpi .arrow{font-size:18px;color:var(--muted);font-weight:500}
+.kpi .note{font-size:13px;color:var(--muted)}
+.kpi.up .val span.new{color:var(--good)}
+.kpi.cost .val span.new{color:var(--warn)}
+.banner{border-left:4px solid var(--warn);background:var(--surface);border-radius:8px;padding:12px 16px;font-size:14px;color:var(--muted)}
+/* tabs */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button,.seg button{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.tabs button[aria-selected="true"],.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel{display:flex;flex-direction:column;gap:14px}
+.panel ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
+/* cycle */
+.cycles{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:860px){.cycles{grid-template-columns:2fr 3fr}}
+.cyc{display:flex;flex-direction:column;gap:12px;min-width:0}
+.grid{overflow-x:auto}
+table{border-collapse:separate;border-spacing:3px;font-variant-numeric:tabular-nums}
+th{font-size:12px;font-weight:500;color:var(--muted);padding:0 2px;text-align:center}
+td.c{width:34px;min-width:34px;height:34px;text-align:center;border-radius:6px;font-weight:700;font-size:13px;cursor:default}
+th.rowh{text-align:left;padding-right:8px;white-space:nowrap;color:var(--fg);font-weight:600}
+.cM{background:var(--m);color:var(--m-fg)}.cP{background:var(--p);color:var(--p-fg)}.cN{background:var(--n);color:var(--n-fg)}
+.cG{background:var(--g);color:var(--g-fg)}.cS{background:var(--s);color:var(--s-fg)}.cF{background:var(--f);color:var(--f-fg)}
+.cR{background:transparent;color:var(--r-fg);font-weight:500;box-shadow:inset 0 0 0 1px var(--line)}
+td.wfree{box-shadow:inset 0 0 0 2px var(--free);color:var(--free)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.chip{display:inline-flex;width:22px;height:22px;border-radius:5px;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.info{font-size:14px;color:var(--muted);min-height:1.55em}
+/* calendar */
+.controls{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl .lab{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.monthnav{display:flex;align-items:center;gap:8px}
+.monthnav button{font:inherit;font-weight:700;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.monthnav strong{font-family:var(--display);font-size:20px;min-width:150px;text-align:center}
+.cal td.c{width:28px;min-width:28px;height:30px;font-size:12px;border-radius:5px}
+.cal th.d{width:28px}
+.cal th.we{color:var(--fg)}
+.cal th.hol{color:var(--good);font-weight:700}
+.cal th.stop{color:var(--f-fg);background:var(--f);border-radius:4px}
+.cal tr.sep td,.cal tr.sep th{padding-top:10px}
+.calsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.calsum .kpi .val{font-size:24px}
+/* compare table */
+.cmp{width:100%;border-collapse:collapse;font-size:15px}
+.cmp th,.cmp td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.cmp td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.cmp td.plus{color:var(--good);font-weight:600}.cmp td.minus{color:var(--warn);font-weight:600}
+.two{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.list li{display:flex;gap:10px;align-items:flex-start}
+.dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:8px}
+.dot.good{background:var(--good)}.dot.warn{background:var(--warn)}
+/* steps */
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.steps li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding-bottom:20px;position:relative}
+.steps li:not(:last-child)::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--line)}
+.steps .num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--display);border:2px solid var(--accent);color:var(--accent);background:var(--surface)}
+.steps .done .num{background:var(--accent);color:var(--accent-fg)}
+.steps h3{margin-top:6px}
+.steps p{color:var(--muted);font-size:15px;margin-top:4px}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:6px}
+@media (prefers-reduced-motion: no-preference){td.c{transition:transform .12s}td.c:hover{transform:scale(1.08)}}
+.topnav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;font-weight:600}
+.topnav a{color:var(--accent);text-decoration:none}.topnav a:hover{text-decoration:underline}
+.choose{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:720px){.choose{grid-template-columns:1fr 1fr}}
+a.door{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;transition:border-color .15s}
+a.door:hover,a.door:focus-visible{border-color:var(--accent)}a.door .go{color:var(--accent);font-weight:700;margin-top:auto}
+a.door h2{font-size:26px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+  <span class="eyebrow">Proposta RSU · ciclo continuo · 5 squadre</span>
+  <h1>Nuova turnazione 2027</h1>
+  <p class="lead">Un ciclo di 5 settimane con turni da 8 ore: più weekend liberi per chi lavora, due squadre in mattina due volte a settimana per manutenzione e formazione. Scegli la pagina che fa per te.</p>
+</header>
+<div class="choose">
+  <a class="door" href="lavoratori.html"><span class="eyebrow">Per chi lavora in turno</span><h2>Cosa cambia per me</h2><p class="muted">Weekend liberi, notti, giorni di lavoro e il tuo calendario 2027 a confronto con quello di oggi.</p><span class="go">Apri la pagina →</span></a>
+  <a class="door" href="direzione.html"><span class="eyebrow">Per la direzione</span><h2>Cosa cambia per l'organizzazione</h2><p class="muted">Copertura, giornate di manutenzione e formazione, impatto su notti e festivi, calendario 2027.</p><span class="go">Apri la pagina →</span></a>
+</div>
+<div class="banner">È una proposta in discussione, non un accordo firmato.</div>
+</div>
+</body></html>
