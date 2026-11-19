@@ -155,8 +155,8 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
 
 <header class="hero">
   <span class="eyebrow">Proposta RSU · ciclo continuo · 5 squadre · turni da 8 ore</span>
-  <h1>Più weekend liberi, stesse notti.</h1>
-  <p class="lead">Tre turnazioni a ciclo di 35 giorni messe a confronto con quella di oggi, sul calendario reale del 2027. In tutte e tre i weekend liberi passano da circa 7 a circa 21 all'anno.</p>
+  <h1>Più weekend liberi per chi lavora a turni.</h1>
+  <p class="lead">Tre turnazioni a ciclo di 35 giorni messe a confronto con quella di oggi, sul calendario reale del 2027. In tutte e tre i weekend liberi passano da circa 7 a circa 21 all'anno. Il numero di notti resta quello di oggi, circa 70 all'anno, ma cambia come sono raggruppate: blocchi da 1 a 3 notti invece che sempre da 2.</p>
   <div class="schemes" id="schemes"></div>
   <div class="banner">È una proposta in discussione, non un accordo firmato. I numeri sono calcolati sul 2027 con le regole spiegate in fondo alla pagina.</div>
 </header>
@@ -170,9 +170,9 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
   <div class="sechead"><span class="eyebrow">Il cuore della proposta</span><h2>I cicli a confronto</h2><p class="muted">Ogni squadra fa lo stesso ciclo, sfalsata rispetto alle altre. Nelle proposte a 35 giorni lo sfalsamento è di una settimana: questa settimana la squadra A fa la riga 1, la B la riga 2, e così via; la settimana dopo ognuna scende di una riga. Tocca una casella per leggerla.</p></div>
   <div class="legend" id="legend"></div>
   <div class="cycles">
-    <div class="card cyc" data-s="vecchio"><h3 class="tag">Oggi · ciclo di 10 giorni</h3><div class="grid"><table id="cyc-old"></table></div><p>6 turni ogni 10 giorni. I giorni liberi cadono ogni volta in un giorno diverso della settimana, e spesso il sabato si passa a recuperare dalla notte.</p></div>
-    <div class="card cyc" data-s="nuovo"><h3 class="tag">Proposta 35 · blocchi corti</h3><div class="grid"><table id="cyc-new"></table></div><p>22 turni ogni 5 settimane. Mai più di 5 giorni di fila. La giornata G del mercoledì porta due squadre in mattina ogni settimana.</p></div>
-    <div class="card cyc" data-s="selva0"><h3 class="tag">La Selva · blocchi lunghi</h3><div class="grid"><table id="cyc-selva0"></table></div><p>21 turni ogni 5 settimane. Tre blocchi da 7 giorni (mattine, pomeriggi, notti), poi smonto e 9 giorni liberi di fila con due weekend.</p></div>
+    <div class="card cyc" data-s="vecchio"><h3 class="tag">Oggi · ciclo di 10 giorni</h3><div class="grid"><table id="cyc-old"></table></div><p>6 turni ogni 10 giorni. Le notti sono sempre 2 di fila. I giorni liberi cadono ogni volta in un giorno diverso della settimana, e spesso il sabato si passa a recuperare dalla notte.</p></div>
+    <div class="card cyc" data-s="nuovo"><h3 class="tag">Proposta 35 · blocchi corti</h3><div class="grid"><table id="cyc-new"></table></div><p>22 turni ogni 5 settimane. Mai più di 5 giorni di fila. Le 7 notti del ciclo sono in 4 blocchi: 1, 1, 2 e 3. La giornata G del mercoledì porta due squadre in mattina ogni settimana.</p></div>
+    <div class="card cyc" data-s="selva0"><h3 class="tag">La Selva · blocchi lunghi</h3><div class="grid"><table id="cyc-selva0"></table></div><p>21 turni ogni 5 settimane. Tre blocchi da 7 giorni (mattine, pomeriggi, notti), poi smonto e 9 giorni liberi di fila con due weekend. Le 7 notti del ciclo sono in 3 blocchi: 3, 2 e 2.</p></div>
     <div class="card cyc" data-s="selvaA"><h3 class="tag">La Selva con A · come a La Selva</h3><div class="grid"><table id="cyc-selvaA"></table></div><p>Lo stesso ciclo. Due volte all'anno per squadra il giovedì della settimana 3 diventa una giornata A di recupero ore: quella volta si lavorano 8 giorni di fila.</p></div>
   </div>
   <p class="info" id="cyc-info" aria-live="polite"></p>
@@ -202,8 +202,9 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
     <li><span class="dot good"></span><span>Da circa 7 a circa 21 weekend tutti liberi all'anno.</span></li>
     <li><span class="dot good"></span><span>Nessun sabato o domenica passato a recuperare dalla notte.</span></li>
     <li><span class="dot good"></span><span>Lavori e riposi sempre negli stessi giorni della settimana, noti con anni di anticipo.</span></li>
-    <li><span class="dot good"></span><span>Notti, sabati e domeniche lavorati restano quelli di oggi.</span></li>
-    <li><span class="dot warn"></span><span>Tre weekend su cinque si lavorano interi.</span></li>
+    <li><span class="dot good"></span><span>Il numero di notti, circa 70 all'anno, e di sabati e domeniche lavorati resta quello di oggi.</span></li>
+    <li><span class="dot warn"></span><span>Le notti si fanno in blocchi fino a 3 di fila, invece che sempre 2, e una volta ogni 5 settimane le 3 notti cadono nel weekend.</span></li>
+    <li><span class="dot warn"></span><span>I sabati e le domeniche lavorati non sono più sparsi: tre weekend su cinque si lavorano interi.</span></li>
   </ul></div>
   <div class="pc">
     <div class="card" data-s="nuovo"><h3 class="tag">Proposta 35</h3><ul class="list">
@@ -212,6 +213,7 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
       <li><span class="dot good"></span><span>Riposi distribuiti in tutte le settimane.</span></li>
       <li><span class="dot warn"></span><span>Circa 10 giorni di presenza in più all'anno.</span></li>
       <li><span class="dot warn"></span><span>Poco più della metà dei weekend liberi sono lunghi: 12 su 21.</span></li>
+      <li><span class="dot warn"></span><span>Due notti singole ogni 5 settimane: più passaggi tra giorno e notte e più smonti.</span></li>
       <li><span class="dot warn"></span><span>Il turno cambia spesso; il riposo più lungo è lo smonto più 2 giorni.</span></li>
     </ul></div>
     <div class="card" data-s="selva0"><h3 class="tag">La Selva</h3><ul class="list">
@@ -248,17 +250,19 @@ const KEYS=["vecchio","nuovo","selva0","selvaA"];
 const $=id=>document.getElementById(id);
 const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 const avg=(k,f)=>DATA.stats[k].reduce((a,s)=>a+s[f],0)/5;
+const EXTRA={};["vecchio","nuovo","selva0","selvaA"].forEach(k=>{EXTRA[k]=DATA[k].map(r=>{let b=0,c=0;for(const x of r){c=x==="N"?c+1:0;b=Math.max(b,c)}return{nfila:b,smonti:(r.match(/S/g)||[]).length}})});
+const ex=(k,f,s)=>s!==undefined?EXTRA[k][s][f]:(f==="nfila"?Math.max(...EXTRA[k].map(e=>e[f])):EXTRA[k].reduce((a,e)=>a+e[f],0)/5);
 const PLANT={};["vecchio","nuovo","selva0","selvaA"].forEach(k=>{PLANT[k]=DATA.days.filter((d,i)=>DATA[k].some(r=>r[i]==="G"||r[i]==="A")).length});
 const r0=x=>Math.round(x);
 
 /* scheme cards */
-const DESC={vecchio:"Il ciclo di oggi: 10 giorni, i riposi girano su tutti i giorni della settimana.",nuovo:"Blocchi corti, massimo 5 giorni di fila. Giornata G ogni mercoledì.",selva0:"Blocchi da 7 giorni, poi 9 giorni liberi di fila ogni 5 settimane.",selvaA:"Come La Selva, con 2 giornate A all'anno per recuperare ore."};
+const DESC={vecchio:"Il ciclo di oggi: 10 giorni, notti sempre 2 di fila, riposi che girano su tutti i giorni della settimana.",nuovo:"Blocchi corti, massimo 5 giorni di fila, notti a blocchi da 1 a 3. Giornata G ogni mercoledì.",selva0:"Blocchi da 7 giorni, notti a blocchi da 2 e 3, poi 9 giorni liberi di fila ogni 5 settimane.",selvaA:"Come La Selva, con 2 giornate A all'anno per recuperare ore."};
 $("schemes").innerHTML=KEYS.map(k=>`<div class="scheme" data-s="${k}"><span class="tag">${NAME[k]}</span><p>${DESC[k]}</p><div class="facts"><span>${r0(avg(k,"weekend"))} weekend liberi</span><span>${r0(avg(k,"presenze"))} presenze</span><span>max ${Math.max(...DATA.stats[k].map(s=>s.fila))} gg di fila</span></div></div>`).join("");
 
 /* bars */
-const METRICS=[["Weekend tutti liberi","weekend",1,"sabato e domenica senza turni e senza notte il venerdì"],["Weekend lunghi","lunghi",1,"3 giorni o più: con il venerdì libero o di smonto, o il lunedì libero"],["Giorni di presenza","presenze",-1,"giorni lavorati a calendario"],["Giorni con 2 squadre in mattina","plant",0,"giorni dell'anno in cui in stabilimento ci sono due squadre in mattina, per manutenzione e formazione"],["Riposi infrasettimanali","rip_infra",1,"giorni liberi dal lunedì al venerdì, esclusi smonti e fermate"],["Giorni di lavoro di fila, massimo","fila",-1,"il blocco più lungo dell'anno"]];
+const METRICS=[["Weekend tutti liberi","weekend",1,"sabato e domenica senza turni e senza notte il venerdì"],["Weekend lunghi","lunghi",1,"3 giorni o più: con il venerdì libero o di smonto, o il lunedì libero"],["Giorni di presenza","presenze",-1,"giorni lavorati a calendario"],["Smonti all'anno","smonti",-1,"giorni in cui si esce alle 7 dopo un blocco di notti: più blocchi corti, più smonti"],["Notti di fila, massimo","nfila",-1,"il blocco di notti più lungo"],["Giorni con 2 squadre in mattina","plant",0,"giorni dell'anno in cui in stabilimento ci sono due squadre in mattina, per manutenzione e formazione"],["Riposi infrasettimanali","rip_infra",1,"giorni liberi dal lunedì al venerdì, esclusi smonti e fermate"],["Giorni di lavoro di fila, massimo","fila",-1,"il blocco più lungo dell'anno"]];
 $("bars").innerHTML=METRICS.map(([l,f,sign,note])=>{
-  const vals=KEYS.map(k=>f==="plant"?PLANT[k]:f==="fila"?Math.max(...DATA.stats[k].map(s=>s[f])):r0(avg(k,f)));
+  const vals=KEYS.map(k=>f==="plant"?PLANT[k]:(f==="nfila"||f==="smonti")?r0(ex(k,f)):f==="fila"?Math.max(...DATA.stats[k].map(s=>s[f])):r0(avg(k,f)));
   const mx=Math.max(...vals,1),pv=vals.slice(1),best=sign===0?null:(sign>0?Math.max(...pv):Math.min(...pv)),eq=sign===0||pv.every(v=>v===pv[0]);
   return `<div class="card metric"><h3>${l}</h3><div class="note">${note}</div>${KEYS.map((k,i)=>`<div class="brow ${i>0&&!eq&&vals[i]===best?"best":""}" data-s="${k}"><span class="lab">${NAME[k]}</span><span class="track"><span class="fill" style="display:block;width:${(vals[i]/mx*100).toFixed(1)}%"></span></span><span class="v">${vals[i]}</span></div>`).join("")}</div>`}).join("");
 
@@ -317,8 +321,8 @@ renderCal();
 let sq2=0;
 function renderCmp(){
   seg("ctl-squad2",[[0,"Media"],...[1,2,3,4,5].map(i=>[i,"Squadra "+SQ[i-1]])],sq2,v=>{sq2=v;renderCmp()});
-  const g=(k,f)=>f==="plant"?PLANT[k]:sq2?DATA.stats[k][sq2-1][f]:(f==="fila"?Math.max(...DATA.stats[k].map(s=>s[f])):avg(k,f));
-  const rows=[["Weekend tutti liberi","weekend",1],["Weekend lunghi, 3 giorni o più","lunghi",1],["Sabati e domeniche di smonto","we_smonto",-1],["Sabati e domeniche lavorati","we_lav",-1],["Notti","notti",-1],["Riposi infrasettimanali","rip_infra",1],["Giornate G o A fatte da ogni lavoratore","g",0],["Giorni con 2 squadre in mattina, in stabilimento","plant",0],["Giorni di presenza","presenze",-1],["Giorni di lavoro di fila, massimo","fila",-1]];
+  const g=(k,f)=>f==="plant"?PLANT[k]:(f==="nfila"||f==="smonti")?ex(k,f,sq2?sq2-1:undefined):sq2?DATA.stats[k][sq2-1][f]:(f==="fila"?Math.max(...DATA.stats[k].map(s=>s[f])):avg(k,f));
+  const rows=[["Weekend tutti liberi","weekend",1],["Weekend lunghi, 3 giorni o più","lunghi",1],["Sabati e domeniche di smonto","we_smonto",-1],["Sabati e domeniche lavorati","we_lav",-1],["Notti","notti",-1],["Notti di fila, massimo","nfila",-1],["Smonti dopo la notte","smonti",-1],["Riposi infrasettimanali","rip_infra",1],["Giornate G o A fatte da ogni lavoratore","g",0],["Giorni con 2 squadre in mattina, in stabilimento","plant",0],["Giorni di presenza","presenze",-1],["Giorni di lavoro di fila, massimo","fila",-1]];
   let h=`<thead><tr><th>Nel 2027</th>${KEYS.map(k=>`<th data-s="${k}"><span class="tag">${NAME[k]}</span></th>`).join("")}</tr></thead><tbody>`;
   rows.forEach(([l,f,sign])=>{const v=KEYS.map(k=>r0(g(k,f)));
     const nv=v.slice(1),best=sign===0?null:(sign>0?Math.max(...nv):Math.min(...nv)),allEq=nv.every(x=>x===nv[0]);
