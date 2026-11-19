@@ -162,12 +162,12 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
 </header>
 
 <section id="confronto">
-  <div class="sechead"><span class="eyebrow">Il confronto in breve</span><h2>Cosa cambia per chi lavora</h2><p class="muted">Media per lavoratore, anno 2027. In verde il valore migliore tra le proposte.</p></div>
+  <div class="sechead"><span class="eyebrow">Il confronto in breve</span><h2>Cosa cambia per chi lavora</h2><p class="muted">Media per lavoratore, anno 2027. In verde, tra le tre proposte, il valore più favorevole per chi lavora.</p></div>
   <div class="bars" id="bars"></div>
 </section>
 
 <section id="cicli">
-  <div class="sechead"><span class="eyebrow">Il cuore della proposta</span><h2>I cicli a confronto</h2><p class="muted">Ogni squadra fa lo stesso ciclo, sfalsata di una settimana rispetto alle altre: questa settimana la squadra A fa la riga 1, la B la riga 2, e così via. Tocca una casella per leggerla.</p></div>
+  <div class="sechead"><span class="eyebrow">Il cuore della proposta</span><h2>I cicli a confronto</h2><p class="muted">Ogni squadra fa lo stesso ciclo, sfalsata rispetto alle altre. Nelle proposte a 35 giorni lo sfalsamento è di una settimana: questa settimana la squadra A fa la riga 1, la B la riga 2, e così via; la settimana dopo ognuna scende di una riga. Tocca una casella per leggerla.</p></div>
   <div class="legend" id="legend"></div>
   <div class="cycles">
     <div class="card cyc" data-s="vecchio"><h3 class="tag">Oggi · ciclo di 10 giorni</h3><div class="grid"><table id="cyc-old"></table></div><p>6 turni ogni 10 giorni. I giorni liberi cadono ogni volta in un giorno diverso della settimana, e spesso il sabato si passa a recuperare dalla notte.</p></div>
@@ -191,7 +191,7 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
 </section>
 
 <section id="numeri">
-  <div class="sechead"><span class="eyebrow">I numeri</span><h2>Un anno a confronto</h2></div>
+  <div class="sechead"><span class="eyebrow">I numeri</span><h2>Un anno a confronto</h2><p class="muted">Valori del 2027, in media o per squadra. In verde, tra le tre proposte, il valore più favorevole per chi lavora.</p></div>
   <div class="seg" id="ctl-squad2"></div>
   <div class="card grid"><table class="cmp" id="cmp"></table></div>
 </section>
@@ -211,7 +211,7 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
       <li><span class="dot good"></span><span>Due squadre in mattina ogni mercoledì, 51 giorni all'anno, per manutenzione e formazione.</span></li>
       <li><span class="dot good"></span><span>Riposi distribuiti in tutte le settimane.</span></li>
       <li><span class="dot warn"></span><span>Circa 10 giorni di presenza in più all'anno.</span></li>
-      <li><span class="dot warn"></span><span>Solo metà dei weekend liberi sono lunghi.</span></li>
+      <li><span class="dot warn"></span><span>Poco più della metà dei weekend liberi sono lunghi: 12 su 21.</span></li>
       <li><span class="dot warn"></span><span>Il turno cambia spesso; il riposo più lungo è lo smonto più 2 giorni.</span></li>
     </ul></div>
     <div class="card" data-s="selva0"><h3 class="tag">La Selva</h3><ul class="list">
@@ -232,8 +232,8 @@ footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);paddin
 </section>
 
 <footer>
-  <p>Orari: mattina 7–15, pomeriggio 15–23, notte 23–7. Fermate 2027: 1 gennaio, Pasqua e Pasquetta (28–29 marzo), 1 maggio, dal 25 al 31 dicembre; la produzione si ferma alle 23 del giorno prima e riparte alle 7 del giorno dopo.</p>
-  <p>Weekend libero: nessun turno sabato e domenica e nessuna notte il venerdì. Weekend lungo: con il venerdì o il lunedì liberi attaccati. Il punto di partenza di ogni squadra nel ciclo è un'ipotesi: le squadre reali potrebbero essere sfalsate in modo diverso, ma i totali annui restano molto simili. I cicli La Selva prendono il nome dallo stabilimento in cui sono già in uso.</p>
+  <p>Orari: mattina 7–15, pomeriggio 15–23, notte 23–7. Fermate considerate per il 2027, da confermare: 1 gennaio, Pasqua e Pasquetta (28–29 marzo), 1 maggio, dal 25 al 31 dicembre; la produzione si ferma alle 23 del giorno prima e riparte alle 7 del giorno dopo.</p>
+  <p>Weekend libero: nessun turno sabato e domenica e nessuna notte il venerdì. Weekend lungo: con attaccato il venerdì (libero o di smonto) o il lunedì libero. Il punto di partenza di ogni squadra nel ciclo è un'ipotesi: le squadre reali potrebbero essere sfalsate in modo diverso, ma i totali annui restano molto simili. Il ciclo La Selva prende il nome dallo stabilimento in cui è già in uso, nella versione con le giornate A.</p>
 </footer>
 </div>
 
@@ -256,10 +256,10 @@ const DESC={vecchio:"Il ciclo di oggi: 10 giorni, i riposi girano su tutti i gio
 $("schemes").innerHTML=KEYS.map(k=>`<div class="scheme" data-s="${k}"><span class="tag">${NAME[k]}</span><p>${DESC[k]}</p><div class="facts"><span>${r0(avg(k,"weekend"))} weekend liberi</span><span>${r0(avg(k,"presenze"))} presenze</span><span>max ${Math.max(...DATA.stats[k].map(s=>s.fila))} gg di fila</span></div></div>`).join("");
 
 /* bars */
-const METRICS=[["Weekend tutti liberi","weekend",1,"sabato e domenica senza turni e senza notte il venerdì"],["Weekend lunghi","lunghi",1,"3 giorni o più, con venerdì o lunedì liberi"],["Giorni di presenza","presenze",-1,"giorni lavorati a calendario"],["Giorni con 2 squadre in mattina","plant",1,"giorni dell'anno in cui in stabilimento ci sono due squadre in mattina, per manutenzione e formazione"],["Riposi infrasettimanali","rip_infra",1,"giorni liberi dal lunedì al venerdì, smonti esclusi"],["Giorni di lavoro di fila, massimo","fila",-1,"il blocco più lungo dell'anno"]];
+const METRICS=[["Weekend tutti liberi","weekend",1,"sabato e domenica senza turni e senza notte il venerdì"],["Weekend lunghi","lunghi",1,"3 giorni o più: con il venerdì libero o di smonto, o il lunedì libero"],["Giorni di presenza","presenze",-1,"giorni lavorati a calendario"],["Giorni con 2 squadre in mattina","plant",0,"giorni dell'anno in cui in stabilimento ci sono due squadre in mattina, per manutenzione e formazione"],["Riposi infrasettimanali","rip_infra",1,"giorni liberi dal lunedì al venerdì, esclusi smonti e fermate"],["Giorni di lavoro di fila, massimo","fila",-1,"il blocco più lungo dell'anno"]];
 $("bars").innerHTML=METRICS.map(([l,f,sign,note])=>{
   const vals=KEYS.map(k=>f==="plant"?PLANT[k]:f==="fila"?Math.max(...DATA.stats[k].map(s=>s[f])):r0(avg(k,f)));
-  const mx=Math.max(...vals,1),pv=vals.slice(1),best=sign>0?Math.max(...pv):Math.min(...pv),eq=pv.every(v=>v===pv[0]);
+  const mx=Math.max(...vals,1),pv=vals.slice(1),best=sign===0?null:(sign>0?Math.max(...pv):Math.min(...pv)),eq=sign===0||pv.every(v=>v===pv[0]);
   return `<div class="card metric"><h3>${l}</h3><div class="note">${note}</div>${KEYS.map((k,i)=>`<div class="brow ${i>0&&!eq&&vals[i]===best?"best":""}" data-s="${k}"><span class="lab">${NAME[k]}</span><span class="track"><span class="fill" style="display:block;width:${(vals[i]/mx*100).toFixed(1)}%"></span></span><span class="v">${vals[i]}</span></div>`).join("")}</div>`}).join("");
 
 /* legend + cycles */
