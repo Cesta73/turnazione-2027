@@ -4,218 +4,245 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nuova turnazione 2027</title>
-<meta name="description" content="Due proposte di turnazione a ciclo di 35 giorni a confronto con quella di oggi, sul calendario reale 2027.">
+<meta name="description" content="Tre proposte di turnazione a ciclo di 35 giorni a confronto con quella di oggi, sul calendario reale 2027.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: colonna centrale; hero con i numeri chiave, spiegazione a schede, ciclo, calendario interattivo, confronto, cose da fare */
+/* Layout: barra fissa con le sezioni; hero con le 4 turnazioni; confronto a barre; cicli 2x2; calendario; tabella; pro e contro */
 :root{
-  --bg:#f4f6f8; --surface:#ffffff; --fg:#17202b; --muted:#5a6676; --line:#dce2ea; --soft:#eaeef3;
-  --accent:#0f6fb8; --accent-fg:#ffffff; --good:#1f8a4c; --warn:#b5651d;
-  --m:#ffd45c; --m-fg:#3b2c00; --p:#ff9a62; --p-fg:#3f1700; --n:#2c3d8f; --n-fg:#ffffff;
-  --g:#3fbf7a; --g-fg:#04301a; --a:#8fd3c9; --a-fg:#063a33; --s:#cdd4de; --s-fg:#35404f; --f:#efb4b4; --f-fg:#5a1414; --r-fg:#a2abb8;
-  --free:#0f6fb8;
+  --bg:#f3f5f8; --surface:#ffffff; --fg:#141c27; --muted:#556172; --line:#dde3eb; --soft:#eef2f6;
+  --accent:#1162ad; --accent-fg:#ffffff; --good:#1b7f45; --warn:#a65a12;
+  --s-oggi:#7b8794; --s-p35:#1162ad; --s-selva:#7346b8; --s-selvaA:#b23a78;
+  --m:#ffd45c; --m-fg:#3b2c00; --p:#ff9a62; --p-fg:#3f1700; --n:#24357f; --n-fg:#ffffff;
+  --g:#33b56f; --g-fg:#03301a; --a:#7fd0c5; --a-fg:#053a33; --s:#cfd6df; --s-fg:#2f3a49; --f:#f0b3b3; --f-fg:#5a1414; --r-fg:#9aa4b2; --r-bg:#f7f9fb;
+  --free:#1162ad;
   --display:"Archivo","Inter",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){:root{
-  --bg:#10151c; --surface:#18202a; --fg:#e7ecf2; --muted:#9aa6b6; --line:#2a3442; --soft:#212a36;
-  --accent:#5fa8e8; --accent-fg:#06121f; --good:#5cc98a; --warn:#e3a061;
-  --m:#d8b03e; --m-fg:#1e1600; --p:#de7f4a; --p-fg:#250d00; --n:#4c63d4; --n-fg:#ffffff;
-  --g:#3aa76b; --g-fg:#02190c; --a:#2f8f84; --a-fg:#ffffff; --s:#3a4454; --s-fg:#d0d7e1; --f:#6c2c2c; --f-fg:#ffdada; --r-fg:#5b6676;
-  --free:#5fa8e8; color-scheme:dark;}}
+  --bg:#0f141b; --surface:#171e28; --fg:#e8edf3; --muted:#9ba7b7; --line:#2a3443; --soft:#1e2733;
+  --accent:#6aaef0; --accent-fg:#06121f; --good:#5cc98a; --warn:#e3a061;
+  --s-oggi:#8b97a6; --s-p35:#6aaef0; --s-selva:#a987e6; --s-selvaA:#e57fb3;
+  --m:#d8b03e; --m-fg:#1e1600; --p:#de7f4a; --p-fg:#250d00; --n:#4d64d6; --n-fg:#ffffff;
+  --g:#38a868; --g-fg:#02190c; --a:#2f8f84; --a-fg:#ffffff; --s:#3a4454; --s-fg:#d0d7e1; --f:#6c2c2c; --f-fg:#ffdada; --r-fg:#5d6979; --r-bg:#1a222d;
+  --free:#6aaef0; color-scheme:dark;}}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55;
-  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-.wrap{max-width:1080px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;padding-bottom:env(safe-area-inset-bottom,0px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .in{max-width:1120px;margin:0 auto;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;align-items:center;gap:16px;overflow-x:auto;white-space:nowrap;scrollbar-width:none}
+.topbar .in::-webkit-scrollbar{display:none}
+.brand{font-family:var(--display);font-weight:800;font-size:16px;margin-right:auto}
+.topbar a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:600;padding:6px 2px}
+.topbar a:hover,.topbar a:focus-visible{color:var(--accent)}
+.wrap{max-width:1120px;margin:0 auto;padding-block:36px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:64px}
 h1,h2,h3{font-family:var(--display);line-height:1.15;margin:0;text-wrap:balance}
-h1{font-size:clamp(32px,6vw,54px);font-weight:800;letter-spacing:-.01em}
-h2{font-size:clamp(24px,3.4vw,32px);font-weight:700}
-h3{font-size:18px;font-weight:700}
-p{margin:0;max-width:66ch}
+h1{font-size:clamp(34px,5.6vw,56px);font-weight:800;letter-spacing:-.015em}
+h2{font-size:clamp(26px,3.4vw,34px);font-weight:700}
+h3{font-size:19px;font-weight:700}
+p{margin:0;max-width:68ch}
 .muted{color:var(--muted)}
-.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
-section{display:flex;flex-direction:column;gap:20px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.small{font-size:14px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+section{display:flex;flex-direction:column;gap:20px;min-width:0}
+.sechead{display:flex;flex-direction:column;gap:8px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+/* scheme identity */
+.tag{display:inline-flex;align-items:center;gap:8px;font-weight:700}
+.tag::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--sc);flex:none}
+[data-s="vecchio"]{--sc:var(--s-oggi)}[data-s="nuovo"]{--sc:var(--s-p35)}[data-s="selva0"]{--sc:var(--s-selva)}[data-s="selvaA"]{--sc:var(--s-selvaA)}
 /* hero */
-.hero{display:flex;flex-direction:column;gap:18px;padding-top:8px}
-.hero .lead{font-size:clamp(17px,2.2vw,20px);color:var(--muted)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
-.kpi .lab{font-size:13px;color:var(--muted)}
-.kpi .val{font-family:var(--display);font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.kpi .old{font-size:18px;font-weight:500;color:var(--muted);text-decoration:line-through;text-decoration-thickness:1px}
-.kpi .arrow{font-size:18px;color:var(--muted);font-weight:500}
-.kpi .note{font-size:13px;color:var(--muted)}
-.kpi.up .val span.new{color:var(--good)}
-.kpi.cost .val span.new{color:var(--warn)}
+.hero{display:flex;flex-direction:column;gap:20px}
+.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:62ch}
+.schemes{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px}
+.scheme{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--sc);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.scheme p{font-size:14px;color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+.facts span{font-size:12.5px;font-weight:600;background:var(--soft);border-radius:999px;padding:3px 10px;font-variant-numeric:tabular-nums}
 .banner{border-left:4px solid var(--warn);background:var(--surface);border-radius:8px;padding:12px 16px;font-size:14px;color:var(--muted)}
-/* tabs */
-.tabs{display:flex;gap:6px;flex-wrap:wrap}
-.tabs button,.seg button{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
-.tabs button[aria-selected="true"],.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.panel{display:flex;flex-direction:column;gap:14px}
-.panel ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
-/* cycle */
+/* bars */
+.bars{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.bars{grid-template-columns:1fr 1fr}}
+.metric h3{font-size:16px;margin-bottom:4px}
+.metric .note{font-size:13px;color:var(--muted);margin-bottom:12px}
+.brow{display:grid;grid-template-columns:118px 1fr 44px;align-items:center;gap:10px;margin-top:8px;font-size:14px}
+.brow .lab{color:var(--fg);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track{height:14px;background:var(--soft);border-radius:999px;overflow:hidden}
+.fill{height:100%;background:var(--sc);border-radius:999px;min-width:3px}
+.brow .v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.brow.best .v{color:var(--good)}
+/* cycles */
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.chip{display:inline-flex;width:24px;height:24px;border-radius:6px;align-items:center;justify-content:center;font-size:12px;font-weight:700}
 .cycles{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:860px){.cycles{grid-template-columns:2fr 3fr}}
-.cyc{display:flex;flex-direction:column;gap:12px;min-width:0}
-.grid{overflow-x:auto}
+@media(min-width:900px){.cycles{grid-template-columns:1fr 1fr}}
+.cyc{display:flex;flex-direction:column;gap:14px;border-top:4px solid var(--sc)}
+.cyc p{font-size:14px;color:var(--muted)}
+.grid{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{border-collapse:separate;border-spacing:3px;font-variant-numeric:tabular-nums}
-th{font-size:12px;font-weight:500;color:var(--muted);padding:0 2px;text-align:center}
-td.c{width:34px;min-width:34px;height:34px;text-align:center;border-radius:6px;font-weight:700;font-size:13px;cursor:default}
-th.rowh{text-align:left;padding-right:8px;white-space:nowrap;color:var(--fg);font-weight:600}
+th{font-size:12px;font-weight:600;color:var(--muted);padding:0 2px;text-align:center}
+td.c{width:36px;min-width:36px;height:36px;text-align:center;border-radius:7px;font-weight:700;font-size:14px;cursor:default}
+th.rowh{text-align:left;padding-right:10px;white-space:nowrap;color:var(--fg);font-weight:600;font-size:13px}
 .cM{background:var(--m);color:var(--m-fg)}.cP{background:var(--p);color:var(--p-fg)}.cN{background:var(--n);color:var(--n-fg)}
 .cG{background:var(--g);color:var(--g-fg)}.cA{background:var(--a);color:var(--a-fg)}.cS{background:var(--s);color:var(--s-fg)}.cF{background:var(--f);color:var(--f-fg)}
-.cR{background:transparent;color:var(--r-fg);font-weight:500;box-shadow:inset 0 0 0 1px var(--line)}
+.cR{background:var(--r-bg);color:var(--r-fg);font-weight:500;box-shadow:inset 0 0 0 1px var(--line)}
 td.wfree{box-shadow:inset 0 0 0 2px var(--free);color:var(--free)}
-.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.chip{display:inline-flex;width:22px;height:22px;border-radius:5px;align-items:center;justify-content:center;font-size:11px;font-weight:700}
-.info{font-size:14px;color:var(--muted);min-height:1.55em}
+.info{font-size:14px;color:var(--muted);min-height:1.6em}
 /* calendar */
-.controls{display:flex;flex-wrap:wrap;gap:14px 24px;align-items:flex-end}
-.ctl{display:flex;flex-direction:column;gap:6px}
-.ctl .lab{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.toolbar{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:flex-end}
+.ctl{display:flex;flex-direction:column;gap:8px}
+.ctl .lab{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
 .seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.seg button[data-s]::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--sc);margin-right:7px;vertical-align:0}
+.seg button[data-s][aria-pressed="true"]::before{background:var(--accent-fg)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .monthnav{display:flex;align-items:center;gap:8px}
-.monthnav button{font:inherit;font-weight:700;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
-.monthnav strong{font-family:var(--display);font-size:20px;min-width:150px;text-align:center}
-.cal td.c{width:28px;min-width:28px;height:30px;font-size:12px;border-radius:5px}
-.cal th.d{width:28px}
-.cal th.we{color:var(--fg)}
-.cal th.hol{color:var(--good);font-weight:700}
-.cal th.stop{color:var(--f-fg);background:var(--f);border-radius:4px}
-.cal tr.sep td,.cal tr.sep th{padding-top:10px}
-.calsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
-.calsum .kpi .val{font-size:24px}
-/* compare table */
-.cmp{width:100%;border-collapse:collapse;font-size:15px}
-.cmp th,.cmp td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
-.cmp th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.cmp td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
-.cmp td.plus{color:var(--good);font-weight:600}.cmp td.minus{color:var(--warn);font-weight:600}
-.two{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:760px){.two{grid-template-columns:1fr 1fr}}
-.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
-.list li{display:flex;gap:10px;align-items:flex-start}
-.dot{flex:none;width:10px;height:10px;border-radius:50%;margin-top:8px}
-.dot.good{background:var(--good)}.dot.warn{background:var(--warn)}
-/* steps */
-.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
-.steps li{display:grid;grid-template-columns:36px 1fr;gap:14px;padding-bottom:20px;position:relative}
-.steps li:not(:last-child)::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--line)}
-.steps .num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-family:var(--display);border:2px solid var(--accent);color:var(--accent);background:var(--surface)}
-.steps .done .num{background:var(--accent);color:var(--accent-fg)}
-.steps h3{margin-top:6px}
-.steps p{color:var(--muted);font-size:15px;margin-top:4px}
-footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:6px}
-@media (prefers-reduced-motion: no-preference){td.c{transition:transform .12s}td.c:hover{transform:scale(1.08)}}
-.kpi3{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}
-.kpi3 div{display:flex;flex-direction:column;gap:2px}
-.kpi3 b{font-family:var(--display);font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
-.kpi3 small{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
-.kpi3 .o b{color:var(--muted)}
-.cyc-old{grid-column:1/-1}
-@media(min-width:860px){.cycles{grid-template-columns:1fr 1fr}}
-.cmp td.best{color:var(--good);font-weight:700}
-.three{display:grid;grid-template-columns:1fr;gap:16px}@media(min-width:760px){.three{grid-template-columns:1fr 1fr}}@media(min-width:1000px){.three{grid-template-columns:1fr 1fr 1fr}}
+.monthnav button{font:inherit;font-weight:700;font-size:18px;width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.monthnav strong{font-family:var(--display);font-size:22px;min-width:160px;text-align:center}
+.calcard{padding:16px 0 12px}
+.cal{border-spacing:2px 4px}
+.cal td.c{width:28px;min-width:28px;height:34px;font-size:12.5px;border-radius:6px}
+.cal th.d{width:28px;font-size:12.5px}
+.cal th.we{color:var(--fg);font-weight:700}
+.cal th.hol{color:var(--good);font-weight:800}
+.cal th.stop{color:var(--f-fg);background:var(--f);border-radius:5px}
+.cal th.rowh,.cal th.corner{position:sticky;left:0;z-index:1;background:var(--surface);padding-left:16px;min-width:132px;font-size:12.5px}
+.cal th.rowh{box-shadow:6px 0 6px -6px rgba(0,0,0,.15)}
+.cal{margin-right:16px}
+.msum{width:100%;border-collapse:collapse;font-size:15px}
+.msum th,.msum td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
+.msum th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.msum th:first-child,.msum td:first-child{text-align:left}
+.msum tr:last-child td{border-bottom:0}
+/* numbers */
+.cmp{width:100%;border-collapse:collapse;font-size:15px;min-width:620px}
+.cmp th,.cmp td{text-align:right;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.cmp th:first-child,.cmp td:first-child{text-align:left}
+.cmp thead th{font-size:12.5px;letter-spacing:.04em;color:var(--fg);font-weight:700;white-space:nowrap}
+.cmp thead th .tag{justify-content:flex-end}
+.cmp td.n{font-variant-numeric:tabular-nums;font-weight:600}
+.cmp td.best{color:var(--good);font-weight:800}
+.cmp tbody tr:hover td{background:var(--soft)}
+.cmp td.vecchio{color:var(--muted)}
+/* pros cons */
 .common{border-left:4px solid var(--good)}
+.pc{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:760px){.pc{grid-template-columns:1fr 1fr}}
+@media(min-width:1060px){.pc{grid-template-columns:1fr 1fr 1fr}}
+.pc .card{border-top:4px solid var(--sc)}
+.list{margin:12px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:15px}
+.list li{display:flex;gap:10px;align-items:flex-start}
+.dot{flex:none;width:9px;height:9px;border-radius:50%;margin-top:8px}
+.dot.good{background:var(--good)}.dot.warn{background:var(--warn)}
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px;display:flex;flex-direction:column;gap:6px}
+@media (prefers-reduced-motion: no-preference){td.c{transition:transform .12s}td.c:hover{transform:scale(1.08)}.fill{transition:width .4s ease}}
+@media (max-width:520px){.card{padding:16px}.brow{grid-template-columns:96px 1fr 38px;font-size:13px}.monthnav strong{min-width:130px;font-size:19px}td.c{width:32px;min-width:32px;height:32px}}
 </style>
 </head>
 <body>
+<nav class="topbar" aria-label="Sezioni"><div class="in">
+  <span class="brand">Turnazione 2027</span>
+  <a href="#confronto">Confronto</a><a href="#cicli">Cicli</a><a href="#calendario">Calendario</a><a href="#numeri">Numeri</a><a href="#pro-contro">Pro e contro</a>
+</div></nav>
 <div class="wrap">
 
 <header class="hero">
-  <span class="eyebrow">Proposta RSU · ciclo continuo · 5 squadre</span>
+  <span class="eyebrow">Proposta RSU · ciclo continuo · 5 squadre · turni da 8 ore</span>
   <h1>Più weekend liberi, stesse notti.</h1>
-  <p class="lead">Tre turnazioni da 8 ore con un ciclo di 35 giorni, a confronto con quella di oggi sul calendario reale del 2027: la <strong>Proposta 35</strong>, con blocchi di lavoro corti e la giornata G il mercoledì, in cui due squadre sono in mattina per manutenzione e formazione; la <strong>La Selva</strong>, con blocchi lunghi e 9 giorni liberi di fila ogni 5 settimane; e la <strong>La Selva con A</strong>, come la usano davvero: due volte all'anno per squadra una giornata A di recupero ore prima del blocco di mattine.</p>
-  <div class="kpis" id="kpis"></div>
+  <p class="lead">Tre turnazioni a ciclo di 35 giorni messe a confronto con quella di oggi, sul calendario reale del 2027. In tutte e tre i weekend liberi passano da circa 7 a circa 21 all'anno.</p>
+  <div class="schemes" id="schemes"></div>
   <div class="banner">È una proposta in discussione, non un accordo firmato. I numeri sono calcolati sul 2027 con le regole spiegate in fondo alla pagina.</div>
 </header>
 
-<section id="ciclo">
-  <span class="eyebrow">Il cuore della proposta</span>
-  <h2>I cicli a confronto</h2>
-  <p class="muted">Ogni squadra fa lo stesso ciclo, sfalsata rispetto alle altre. Tocca o passa sopra una casella per leggerla.</p>
+<section id="confronto">
+  <div class="sechead"><span class="eyebrow">Il confronto in breve</span><h2>Cosa cambia per chi lavora</h2><p class="muted">Media per lavoratore, anno 2027. In verde il valore migliore tra le proposte.</p></div>
+  <div class="bars" id="bars"></div>
+</section>
+
+<section id="cicli">
+  <div class="sechead"><span class="eyebrow">Il cuore della proposta</span><h2>I cicli a confronto</h2><p class="muted">Ogni squadra fa lo stesso ciclo, sfalsata di una settimana rispetto alle altre: questa settimana la squadra A fa la riga 1, la B la riga 2, e così via. Tocca una casella per leggerla.</p></div>
   <div class="legend" id="legend"></div>
   <div class="cycles">
-    <div class="card cyc cyc-old"><h3>Oggi · ciclo di 10 giorni</h3><div class="grid"><table id="cyc-old"></table></div><p class="muted" style="font-size:14px">6 turni ogni 10 giorni. I giorni liberi cadono ogni volta in un giorno diverso della settimana.</p></div>
-    <div class="card cyc"><h3>Proposta 35 · blocchi corti</h3><div class="grid"><table id="cyc-new"></table></div><p class="muted" style="font-size:14px">22 turni ogni 5 settimane. Mai più di 5 giorni di fila. Le settimane 1 e 2 finiscono con un weekend libero.</p></div>
-    <div class="card cyc"><h3>La Selva · blocchi lunghi, riposo lungo</h3><div class="grid"><table id="cyc-selva0"></table></div><p class="muted" style="font-size:14px">21 turni ogni 5 settimane. Gli stessi tre blocchi da 7 giorni, poi smonto e 9 giorni liberi di fila con due weekend. Nessuna compresenza in mattina.</p></div>
-    <div class="card cyc"><h3>La Selva con A · come a La Selva</h3><div class="grid"><table id="cyc-selvaA"></table></div><p class="muted" style="font-size:14px">Lo stesso ciclo. Due volte all'anno per squadra il giovedì della settimana 3 diventa una giornata A in mattina, di recupero ore: quella volta si lavorano 8 giorni di fila. Il riposo lungo resta intatto.</p></div>
+    <div class="card cyc" data-s="vecchio"><h3 class="tag">Oggi · ciclo di 10 giorni</h3><div class="grid"><table id="cyc-old"></table></div><p>6 turni ogni 10 giorni. I giorni liberi cadono ogni volta in un giorno diverso della settimana, e spesso il sabato si passa a recuperare dalla notte.</p></div>
+    <div class="card cyc" data-s="nuovo"><h3 class="tag">Proposta 35 · blocchi corti</h3><div class="grid"><table id="cyc-new"></table></div><p>22 turni ogni 5 settimane. Mai più di 5 giorni di fila. La giornata G del mercoledì porta due squadre in mattina ogni settimana.</p></div>
+    <div class="card cyc" data-s="selva0"><h3 class="tag">La Selva · blocchi lunghi</h3><div class="grid"><table id="cyc-selva0"></table></div><p>21 turni ogni 5 settimane. Tre blocchi da 7 giorni (mattine, pomeriggi, notti), poi smonto e 9 giorni liberi di fila con due weekend.</p></div>
+    <div class="card cyc" data-s="selvaA"><h3 class="tag">La Selva con A · come a La Selva</h3><div class="grid"><table id="cyc-selvaA"></table></div><p>Lo stesso ciclo. Due volte all'anno per squadra il giovedì della settimana 3 diventa una giornata A di recupero ore: quella volta si lavorano 8 giorni di fila.</p></div>
   </div>
-  <p class="muted" style="font-size:14px">In tutte le proposte questa settimana la squadra A fa la riga 1, la B la riga 2 e così via; la settimana dopo ognuna scende di una riga.</p>
   <p class="info" id="cyc-info" aria-live="polite"></p>
 </section>
 
 <section id="calendario">
-  <span class="eyebrow">Calendario 2027</span>
-  <h2>Il tuo anno, giorno per giorno</h2>
-  <div class="controls">
-    <div class="ctl"><span class="lab">Vista</span><div class="seg" id="ctl-view"></div></div>
+  <div class="sechead"><span class="eyebrow">Calendario 2027</span><h2>Il tuo anno, giorno per giorno</h2><p class="muted">Scegli la turnazione e la squadra. Con «Tutte insieme» vedi le quattro turnazioni della stessa squadra una sotto l'altra.</p></div>
+  <div class="card toolbar">
+    <div class="ctl"><span class="lab">Turnazione</span><div class="seg" id="ctl-view"></div></div>
     <div class="ctl"><span class="lab">Squadra</span><div class="seg" id="ctl-squad"></div></div>
     <div class="ctl"><span class="lab">Mese</span><div class="monthnav"><button type="button" id="prev" aria-label="Mese precedente">‹</button><strong id="mlabel"></strong><button type="button" id="next" aria-label="Mese successivo">›</button></div></div>
   </div>
-  <div class="calsum" id="calsum"></div>
-  <div class="card grid"><table class="cal" id="cal"></table></div>
-  <div class="legend"><span><span class="chip cR wfree" style="box-shadow:inset 0 0 0 2px var(--free)"></span>Weekend tutto libero</span><span><span class="chip" style="color:var(--good)">6</span>Festivo</span><span><span class="chip cF">25</span>Fermata</span></div>
+  <div class="legend" id="legend2"></div>
+  <div class="card calcard"><div class="grid"><table class="cal" id="cal"></table></div></div>
+  <div class="card grid"><table class="msum" id="msum"></table></div>
 </section>
 
 <section id="numeri">
-  <span class="eyebrow">I numeri</span>
-  <h2>Cosa cambia in un anno</h2>
+  <div class="sechead"><span class="eyebrow">I numeri</span><h2>Un anno a confronto</h2></div>
   <div class="seg" id="ctl-squad2"></div>
   <div class="card grid"><table class="cmp" id="cmp"></table></div>
-  <div class="card common"><h3 style="margin-bottom:12px">Cosa cambia con tutte le proposte</h3><ul class="list">
+</section>
+
+<section id="pro-contro">
+  <div class="sechead"><span class="eyebrow">Pro e contro</span><h2>Cosa si guadagna e cosa costa</h2></div>
+  <div class="card common"><h3>Con tutte le proposte</h3><ul class="list">
     <li><span class="dot good"></span><span>Da circa 7 a circa 21 weekend tutti liberi all'anno.</span></li>
     <li><span class="dot good"></span><span>Nessun sabato o domenica passato a recuperare dalla notte.</span></li>
     <li><span class="dot good"></span><span>Lavori e riposi sempre negli stessi giorni della settimana, noti con anni di anticipo.</span></li>
     <li><span class="dot good"></span><span>Notti, sabati e domeniche lavorati restano quelli di oggi.</span></li>
-    <li><span class="dot warn"></span><span>Con la Proposta 35 una mattina in più ogni 5 settimane, il mercoledì G: circa 10 giorni di presenza in più all'anno. Con La Selva le presenze restano quelle di oggi.</span></li>
     <li><span class="dot warn"></span><span>Tre weekend su cinque si lavorano interi.</span></li>
   </ul></div>
-  <div class="three">
-    <div class="card"><h3 style="margin-bottom:12px">Proposta 35</h3><ul class="list">
+  <div class="pc">
+    <div class="card" data-s="nuovo"><h3 class="tag">Proposta 35</h3><ul class="list">
       <li><span class="dot good"></span><span>Mai più di 5 giorni di lavoro di fila.</span></li>
-      <li><span class="dot good"></span><span>Riposi distribuiti in tutte le settimane: non si sta mai troppo a lungo senza staccare.</span></li>
-      <li><span class="dot good"></span><span>Più riposi infrasettimanali di La Selva.</span></li>
+      <li><span class="dot good"></span><span>Due squadre in mattina ogni mercoledì, per manutenzione e formazione.</span></li>
+      <li><span class="dot good"></span><span>Riposi distribuiti in tutte le settimane.</span></li>
+      <li><span class="dot warn"></span><span>Circa 10 giorni di presenza in più all'anno.</span></li>
       <li><span class="dot warn"></span><span>Solo metà dei weekend liberi sono lunghi.</span></li>
-      <li><span class="dot warn"></span><span>Il turno cambia spesso, a volte quasi ogni giorno.</span></li>
-      <li><span class="dot warn"></span><span>Il riposo più lungo è lo smonto più 2 giorni.</span></li>
+      <li><span class="dot warn"></span><span>Il turno cambia spesso; il riposo più lungo è lo smonto più 2 giorni.</span></li>
     </ul></div>
-    <div class="card"><h3 style="margin-bottom:12px">La Selva</h3><ul class="list">
+    <div class="card" data-s="selva0"><h3 class="tag">La Selva</h3><ul class="list">
       <li><span class="dot good"></span><span>Tutti i weekend liberi sono lunghi, e arrivano a coppie.</span></li>
       <li><span class="dot good"></span><span>Ogni 5 settimane 9 giorni liberi di fila, più lo smonto.</span></li>
       <li><span class="dot good"></span><span>Stessi giorni di presenza di oggi.</span></li>
       <li><span class="dot warn"></span><span>Tre blocchi da 7 giorni di fila per ciclo, uno che finisce con 3 notti nel weekend.</span></li>
       <li><span class="dot warn"></span><span>Nessuna compresenza in mattina per manutenzione e formazione.</span></li>
     </ul></div>
-    <div class="card"><h3 style="margin-bottom:12px">La Selva con A</h3><ul class="list">
+    <div class="card" data-s="selvaA"><h3 class="tag">La Selva con A</h3><ul class="list">
       <li><span class="dot good"></span><span>Il riposo lungo di 9 giorni resta intatto.</span></li>
       <li><span class="dot good"></span><span>Tutti i weekend liberi sono lunghi.</span></li>
       <li><span class="dot good"></span><span>Solo 2 giorni di presenza in più all'anno.</span></li>
       <li><span class="dot warn"></span><span>Due volte all'anno 8 giorni di lavoro di fila.</span></li>
-      <li><span class="dot warn"></span><span>Le compresenze in mattina sono circa una al mese per tutto lo stabilimento: meno delle 2 al mese richieste.</span></li>
+      <li><span class="dot warn"></span><span>Circa una compresenza al mese per tutto lo stabilimento: meno delle 2 al mese richieste.</span></li>
     </ul></div>
   </div>
 </section>
 
 <footer>
   <p>Orari: mattina 7–15, pomeriggio 15–23, notte 23–7. Fermate 2027: 1 gennaio, Pasqua e Pasquetta (28–29 marzo), 1 maggio, dal 25 al 31 dicembre; la produzione si ferma alle 23 del giorno prima e riparte alle 7 del giorno dopo.</p>
-  <p>Weekend libero: nessun turno sabato e domenica e nessuna notte il venerdì. Il punto di partenza di ogni squadra nel ciclo è un'ipotesi: le squadre reali potrebbero essere sfalsate in modo diverso, ma i totali annui restano molto simili. I cicli La Selva prendono il nome dallo stabilimento in cui è già in uso.</p>
+  <p>Weekend libero: nessun turno sabato e domenica e nessuna notte il venerdì. Weekend lungo: con il venerdì o il lunedì liberi attaccati. Il punto di partenza di ogni squadra nel ciclo è un'ipotesi: le squadre reali potrebbero essere sfalsate in modo diverso, ma i totali annui restano molto simili. I cicli La Selva prendono il nome dallo stabilimento in cui sono già in uso.</p>
 </footer>
 </div>
+
 <script>
 const DATA={"days":[[1,1,4,2],[1,2,5,0],[1,3,6,0],[1,4,0,0],[1,5,1,0],[1,6,2,1],[1,7,3,0],[1,8,4,0],[1,9,5,0],[1,10,6,0],[1,11,0,0],[1,12,1,0],[1,13,2,0],[1,14,3,0],[1,15,4,0],[1,16,5,0],[1,17,6,0],[1,18,0,0],[1,19,1,0],[1,20,2,0],[1,21,3,0],[1,22,4,0],[1,23,5,0],[1,24,6,0],[1,25,0,0],[1,26,1,0],[1,27,2,0],[1,28,3,0],[1,29,4,0],[1,30,5,0],[1,31,6,0],[2,1,0,0],[2,2,1,0],[2,3,2,0],[2,4,3,0],[2,5,4,0],[2,6,5,0],[2,7,6,0],[2,8,0,0],[2,9,1,0],[2,10,2,0],[2,11,3,0],[2,12,4,0],[2,13,5,0],[2,14,6,0],[2,15,0,0],[2,16,1,0],[2,17,2,0],[2,18,3,0],[2,19,4,0],[2,20,5,0],[2,21,6,0],[2,22,0,0],[2,23,1,0],[2,24,2,0],[2,25,3,0],[2,26,4,0],[2,27,5,0],[2,28,6,0],[3,1,0,0],[3,2,1,0],[3,3,2,0],[3,4,3,0],[3,5,4,0],[3,6,5,0],[3,7,6,0],[3,8,0,0],[3,9,1,0],[3,10,2,0],[3,11,3,0],[3,12,4,0],[3,13,5,0],[3,14,6,0],[3,15,0,0],[3,16,1,0],[3,17,2,0],[3,18,3,0],[3,19,4,0],[3,20,5,0],[3,21,6,0],[3,22,0,0],[3,23,1,0],[3,24,2,0],[3,25,3,0],[3,26,4,0],[3,27,5,0],[3,28,6,2],[3,29,0,2],[3,30,1,0],[3,31,2,0],[4,1,3,0],[4,2,4,0],[4,3,5,0],[4,4,6,0],[4,5,0,0],[4,6,1,0],[4,7,2,0],[4,8,3,0],[4,9,4,0],[4,10,5,0],[4,11,6,0],[4,12,0,0],[4,13,1,0],[4,14,2,0],[4,15,3,0],[4,16,4,0],[4,17,5,0],[4,18,6,0],[4,19,0,0],[4,20,1,0],[4,21,2,0],[4,22,3,0],[4,23,4,0],[4,24,5,0],[4,25,6,1],[4,26,0,0],[4,27,1,0],[4,28,2,0],[4,29,3,0],[4,30,4,0],[5,1,5,2],[5,2,6,0],[5,3,0,0],[5,4,1,0],[5,5,2,0],[5,6,3,0],[5,7,4,0],[5,8,5,0],[5,9,6,0],[5,10,0,0],[5,11,1,0],[5,12,2,0],[5,13,3,0],[5,14,4,0],[5,15,5,0],[5,16,6,0],[5,17,0,0],[5,18,1,0],[5,19,2,0],[5,20,3,0],[5,21,4,0],[5,22,5,0],[5,23,6,0],[5,24,0,0],[5,25,1,0],[5,26,2,0],[5,27,3,0],[5,28,4,0],[5,29,5,0],[5,30,6,0],[5,31,0,0],[6,1,1,0],[6,2,2,1],[6,3,3,0],[6,4,4,0],[6,5,5,0],[6,6,6,0],[6,7,0,0],[6,8,1,0],[6,9,2,0],[6,10,3,0],[6,11,4,0],[6,12,5,0],[6,13,6,0],[6,14,0,0],[6,15,1,0],[6,16,2,0],[6,17,3,0],[6,18,4,0],[6,19,5,0],[6,20,6,0],[6,21,0,0],[6,22,1,0],[6,23,2,0],[6,24,3,0],[6,25,4,0],[6,26,5,0],[6,27,6,0],[6,28,0,0],[6,29,1,0],[6,30,2,0],[7,1,3,0],[7,2,4,0],[7,3,5,0],[7,4,6,0],[7,5,0,0],[7,6,1,0],[7,7,2,0],[7,8,3,0],[7,9,4,0],[7,10,5,0],[7,11,6,0],[7,12,0,0],[7,13,1,0],[7,14,2,0],[7,15,3,0],[7,16,4,0],[7,17,5,0],[7,18,6,0],[7,19,0,0],[7,20,1,0],[7,21,2,0],[7,22,3,0],[7,23,4,0],[7,24,5,0],[7,25,6,0],[7,26,0,0],[7,27,1,0],[7,28,2,0],[7,29,3,0],[7,30,4,0],[7,31,5,0],[8,1,6,0],[8,2,0,0],[8,3,1,0],[8,4,2,0],[8,5,3,0],[8,6,4,0],[8,7,5,0],[8,8,6,0],[8,9,0,0],[8,10,1,0],[8,11,2,0],[8,12,3,0],[8,13,4,0],[8,14,5,0],[8,15,6,1],[8,16,0,0],[8,17,1,0],[8,18,2,0],[8,19,3,0],[8,20,4,0],[8,21,5,0],[8,22,6,0],[8,23,0,0],[8,24,1,0],[8,25,2,0],[8,26,3,0],[8,27,4,0],[8,28,5,0],[8,29,6,0],[8,30,0,0],[8,31,1,0],[9,1,2,0],[9,2,3,0],[9,3,4,0],[9,4,5,0],[9,5,6,0],[9,6,0,0],[9,7,1,0],[9,8,2,0],[9,9,3,0],[9,10,4,0],[9,11,5,0],[9,12,6,0],[9,13,0,0],[9,14,1,0],[9,15,2,0],[9,16,3,0],[9,17,4,0],[9,18,5,0],[9,19,6,0],[9,20,0,0],[9,21,1,0],[9,22,2,0],[9,23,3,0],[9,24,4,0],[9,25,5,0],[9,26,6,0],[9,27,0,0],[9,28,1,0],[9,29,2,0],[9,30,3,0],[10,1,4,0],[10,2,5,0],[10,3,6,0],[10,4,0,1],[10,5,1,0],[10,6,2,0],[10,7,3,0],[10,8,4,0],[10,9,5,0],[10,10,6,0],[10,11,0,0],[10,12,1,0],[10,13,2,0],[10,14,3,0],[10,15,4,0],[10,16,5,0],[10,17,6,0],[10,18,0,0],[10,19,1,0],[10,20,2,0],[10,21,3,0],[10,22,4,0],[10,23,5,0],[10,24,6,0],[10,25,0,0],[10,26,1,0],[10,27,2,0],[10,28,3,0],[10,29,4,0],[10,30,5,0],[10,31,6,0],[11,1,0,1],[11,2,1,0],[11,3,2,0],[11,4,3,0],[11,5,4,0],[11,6,5,0],[11,7,6,0],[11,8,0,0],[11,9,1,0],[11,10,2,0],[11,11,3,0],[11,12,4,0],[11,13,5,0],[11,14,6,0],[11,15,0,0],[11,16,1,0],[11,17,2,0],[11,18,3,0],[11,19,4,0],[11,20,5,0],[11,21,6,0],[11,22,0,0],[11,23,1,0],[11,24,2,0],[11,25,3,0],[11,26,4,0],[11,27,5,0],[11,28,6,0],[11,29,0,0],[11,30,1,0],[12,1,2,0],[12,2,3,0],[12,3,4,0],[12,4,5,0],[12,5,6,0],[12,6,0,0],[12,7,1,0],[12,8,2,1],[12,9,3,0],[12,10,4,0],[12,11,5,0],[12,12,6,0],[12,13,0,0],[12,14,1,0],[12,15,2,0],[12,16,3,0],[12,17,4,0],[12,18,5,0],[12,19,6,0],[12,20,0,0],[12,21,1,0],[12,22,2,0],[12,23,3,0],[12,24,4,0],[12,25,5,2],[12,26,6,2],[12,27,0,2],[12,28,1,2],[12,29,2,2],[12,30,3,2],[12,31,4,2]],"vecchio":["FRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRFFNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNFFRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMFFFFFFF","FPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMFFRRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRFPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNFFFFFFFF","FRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNFFFPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPFRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRFFFFFFF","FMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRFFRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRFMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPFFFFFFF","FNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPFFMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMFNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRMMNNSRPPRRFFFFFFF"],"nuovo":["FRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPFFNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRFPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSFFFFFFF","FRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMFFRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMFMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRFFFFFFF","FPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNFFFRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMFFNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMFFFFFFF","FMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRFFMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPFRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMFFFFFFFF","FNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRFFPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSFRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPRRMMPNSRRPPNSRPPNNSRMMMRRMMNNNSRGPPFFFFFFF"],"selva0":["FNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMFFPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMFMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPFFFFFFF","FPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRFFRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSFRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMFFFFFFF","FMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRFFMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRFRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSFFFFFFF","FRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNFFFRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPFFNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRFFFFFFF","FRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPFFNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPFPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPFFFFFFFF"],"selvaA":["FNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMFFPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMFMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPFFFFFFF","FPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRFFRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSFRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMFFFFFFF","FMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRFFMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRFRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSFFFFFFF","FRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNFFFRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPFFNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRFFFFFFF","FRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPFFNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPFPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSRMMMPPNNSRRRRRRRRRMMPPNNNSRMMPPPNNSAMMMPPNNSRRRRRRRRRMMPPFFFFFFFF"],"stats":{"vecchio":[{"presenze":211,"notti":69,"weekend":8,"lunghi":3,"we_lav":60,"we_smonto":9,"rip_infra":77,"g":0,"fila":4,"libere":-68},{"presenze":211,"notti":69,"weekend":6,"lunghi":1,"we_lav":59,"we_smonto":10,"rip_infra":77,"g":0,"fila":4,"libere":-68},{"presenze":213,"notti":71,"weekend":6,"lunghi":1,"we_lav":60,"we_smonto":9,"rip_infra":75,"g":0,"fila":4,"libere":-52},{"presenze":212,"notti":72,"weekend":7,"lunghi":2,"we_lav":60,"we_smonto":10,"rip_infra":76,"g":0,"fila":4,"libere":-60},{"presenze":212,"notti":70,"weekend":6,"lunghi":1,"we_lav":60,"we_smonto":11,"rip_infra":77,"g":0,"fila":4,"libere":-60}],"nuovo":[{"presenze":221,"notti":70,"weekend":22,"lunghi":12,"we_lav":58,"we_smonto":0,"rip_infra":50,"g":10,"fila":5,"libere":12},{"presenze":221,"notti":71,"weekend":22,"lunghi":12,"we_lav":58,"we_smonto":0,"rip_infra":50,"g":10,"fila":5,"libere":12},{"presenze":221,"notti":68,"weekend":21,"lunghi":11,"we_lav":59,"we_smonto":0,"rip_infra":51,"g":10,"fila":5,"libere":12},{"presenze":223,"notti":70,"weekend":21,"lunghi":12,"we_lav":62,"we_smonto":0,"rip_infra":52,"g":10,"fila":5,"libere":28},{"presenze":224,"notti":72,"weekend":21,"lunghi":11,"we_lav":62,"we_smonto":0,"rip_infra":51,"g":11,"fila":5,"libere":36}],"selva0":[{"presenze":212,"notti":72,"weekend":21,"lunghi":21,"we_lav":60,"we_smonto":0,"rip_infra":71,"g":0,"fila":7,"libere":-60},{"presenze":215,"notti":72,"weekend":21,"lunghi":21,"we_lav":62,"we_smonto":0,"rip_infra":70,"g":0,"fila":7,"libere":-36},{"presenze":215,"notti":72,"weekend":21,"lunghi":21,"we_lav":62,"we_smonto":0,"rip_infra":70,"g":0,"fila":7,"libere":-36},{"presenze":206,"notti":66,"weekend":22,"lunghi":22,"we_lav":57,"we_smonto":0,"rip_infra":75,"g":0,"fila":7,"libere":-108},{"presenze":211,"notti":69,"weekend":22,"lunghi":22,"we_lav":58,"we_smonto":0,"rip_infra":70,"g":0,"fila":7,"libere":-68}],"selvaA":[{"presenze":214,"notti":72,"weekend":21,"lunghi":21,"we_lav":60,"we_smonto":0,"rip_infra":69,"g":2,"fila":8,"libere":-44},{"presenze":217,"notti":72,"weekend":21,"lunghi":21,"we_lav":62,"we_smonto":0,"rip_infra":68,"g":2,"fila":8,"libere":-20},{"presenze":217,"notti":72,"weekend":21,"lunghi":21,"we_lav":62,"we_smonto":0,"rip_infra":68,"g":2,"fila":8,"libere":-20},{"presenze":208,"notti":66,"weekend":22,"lunghi":22,"we_lav":57,"we_smonto":0,"rip_infra":73,"g":2,"fila":8,"libere":-92},{"presenze":213,"notti":69,"weekend":22,"lunghi":22,"we_lav":58,"we_smonto":0,"rip_infra":68,"g":2,"fila":8,"libere":-52}]}};
 const SQ="ABCDE";
 const MESI=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
 const WD=["L","M","M","G","V","S","D"];
-const LEG={A:"Giornata A: recupero ore, seconda squadra in mattina, 7–15",M:"Mattina 7–15",P:"Pomeriggio 15–23",N:"Notte 23–7",G:"Giornata G: seconda squadra in mattina, 7–15",S:"Smonto: si esce alle 7 dopo la notte",R:"Riposo",F:"Fermata impianto"};
+const LEG={M:"Mattina 7–15",P:"Pomeriggio 15–23",N:"Notte 23–7",G:"Giornata G: seconda squadra in mattina, 7–15",A:"Giornata A: recupero ore, seconda squadra in mattina, 7–15",S:"Smonto: si esce alle 7 dopo la notte",R:"Riposo",F:"Fermata impianto"};
 const NAME={vecchio:"Oggi",nuovo:"Proposta 35",selva0:"La Selva",selvaA:"La Selva con A"};
 const KEYS=["vecchio","nuovo","selva0","selvaA"];
 const $=id=>document.getElementById(id);
@@ -223,11 +250,21 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v===null?d:v}ca
 const avg=(k,f)=>DATA.stats[k].reduce((a,s)=>a+s[f],0)/5;
 const r0=x=>Math.round(x);
 
-$("kpis").innerHTML=[
- ["Weekend tutti liberi all'anno","weekend"],["Weekend lunghi, 3 giorni o più","lunghi"],["Notti all'anno","notti"],["Giorni di presenza all'anno","presenze"]
-].map(([l,f])=>`<div class="kpi"><span class="lab">${l}</span><div class="kpi3">${KEYS.map(k=>`<div class="${k==="vecchio"?"o":""}"><b>${r0(avg(k,f))}</b><small>${NAME[k]}</small></div>`).join("")}</div></div>`).join("");
+/* scheme cards */
+const DESC={vecchio:"Il ciclo di oggi: 10 giorni, i riposi girano su tutti i giorni della settimana.",nuovo:"Blocchi corti, massimo 5 giorni di fila. Giornata G ogni mercoledì.",selva0:"Blocchi da 7 giorni, poi 9 giorni liberi di fila ogni 5 settimane.",selvaA:"Come La Selva, con 2 giornate A all'anno per recuperare ore."};
+$("schemes").innerHTML=KEYS.map(k=>`<div class="scheme" data-s="${k}"><span class="tag">${NAME[k]}</span><p>${DESC[k]}</p><div class="facts"><span>${r0(avg(k,"weekend"))} weekend liberi</span><span>${r0(avg(k,"presenze"))} presenze</span><span>max ${Math.max(...DATA.stats[k].map(s=>s.fila))} gg di fila</span></div></div>`).join("");
 
-$("legend").innerHTML="MPNGASRF".split("").map(c=>`<span><span class="chip c${c}">${c==="R"?"·":c}</span>${LEG[c].split(":")[0]}</span>`).join("");
+/* bars */
+const METRICS=[["Weekend tutti liberi","weekend",1,"sabato e domenica senza turni e senza notte il venerdì"],["Weekend lunghi","lunghi",1,"3 giorni o più, con venerdì o lunedì liberi"],["Giorni di presenza","presenze",-1,"giorni lavorati a calendario"],["Giornate con 2 squadre in mattina","g",1,"giornate G o A per lavoratore: manutenzione e formazione"],["Riposi infrasettimanali","rip_infra",1,"giorni liberi dal lunedì al venerdì, smonti esclusi"],["Giorni di lavoro di fila, massimo","fila",-1,"il blocco più lungo dell'anno"]];
+$("bars").innerHTML=METRICS.map(([l,f,sign,note])=>{
+  const vals=KEYS.map(k=>f==="fila"?Math.max(...DATA.stats[k].map(s=>s[f])):r0(avg(k,f)));
+  const mx=Math.max(...vals,1),pv=vals.slice(1),best=sign>0?Math.max(...pv):Math.min(...pv),eq=pv.every(v=>v===pv[0]);
+  return `<div class="card metric"><h3>${l}</h3><div class="note">${note}</div>${KEYS.map((k,i)=>`<div class="brow ${i>0&&!eq&&vals[i]===best?"best":""}" data-s="${k}"><span class="lab">${NAME[k]}</span><span class="track"><span class="fill" style="display:block;width:${(vals[i]/mx*100).toFixed(1)}%"></span></span><span class="v">${vals[i]}</span></div>`).join("")}</div>`}).join("");
+
+/* legend + cycles */
+const legHTML=c=>`<span><span class="chip c${c}">${c==="R"?"·":c}</span>${LEG[c].split(":")[0]}</span>`;
+$("legend").innerHTML="MPNGASRF".split("").map(legHTML).join("");
+$("legend2").innerHTML="MPNGASRF".split("").map(legHTML).join("")+`<span><span class="chip cR wfree"></span>Weekend libero</span><span><span class="chip" style="color:var(--good);font-weight:800">6</span>Festivo</span>`;
 const cell=(c,extra="")=>`<td class="c c${c} ${extra}" title="${LEG[c]}" data-c="${c}">${c==="R"?"·":c}</td>`;
 const OLD="MMNNSRPPRR".split("");
 $("cyc-old").innerHTML="<tr>"+OLD.map((_,i)=>`<th>${i+1}</th>`).join("")+"</tr><tr>"+OLD.map(c=>cell(c)).join("")+"</tr>";
@@ -236,53 +273,56 @@ function weekTable(id,W,free){$(id).innerHTML="<tr><th></th>"+["Lun","Mar","Mer"
 weekTable("cyc-new",["SRGPPRR","MMPNSRR","PPNSRPP","NNSRMMM","RRMMNNN"],[0,1]);
 weekTable("cyc-selva0",["MMPPNNN","SRMMPPP","NNSRMMM","PPNNSRR","RRRRRRR"],[3,4]);
 weekTable("cyc-selvaA",["MMPPNNN","SRMMPPP","NNSAMMM","PPNNSRR","RRRRRRR"],[3,4]);
-function bindInfo(root){const f=e=>{const t=e.target.closest("td.c");if(t)$("cyc-info").textContent=LEG[t.dataset.c]};root.addEventListener("pointerover",f);root.addEventListener("click",f)}
-["cyc-old","cyc-new","cyc-selva0","cyc-selvaA"].forEach(id=>bindInfo($(id)));
+["cyc-old","cyc-new","cyc-selva0","cyc-selvaA"].forEach(id=>{const f=e=>{const t=e.target.closest("td.c");if(t)$("cyc-info").textContent=LEG[t.dataset.c]};$(id).addEventListener("pointerover",f);$(id).addEventListener("click",f)});
 
-let view=store.get("tv6","nuovo"),squad=+store.get("tq","0"),month=+store.get("tm","0");
-if(!["nuovo","selva0","selvaA","vecchio","confronto"].includes(view))view="nuovo";
-if(!(squad>=0&&squad<=5))squad=0; if(!(month>=0&&month<=11))month=0;
-const VIEWS=[["nuovo","Proposta 35"],["selva0","La Selva"],["selvaA","La Selva con A"],["vecchio","Oggi"],["confronto","Tutte insieme"]];
-function seg(id,items,cur,cb){const el=$(id);el.innerHTML="";items.forEach(([v,t])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.setAttribute("aria-pressed",String(v===cur));b.onclick=()=>cb(v);el.appendChild(b)})}
+/* calendar */
+let view=store.get("tv7","confronto"),squad=+store.get("tq","1"),month=+store.get("tm","0");
+const VIEWS=[["confronto","Tutte insieme"],...KEYS.slice(1).map(k=>[k,NAME[k]]),["vecchio","Oggi"]];
+if(!VIEWS.some(v=>v[0]===view))view="confronto";
+if(!(squad>=0&&squad<=5))squad=1; if(!(month>=0&&month<=11))month=0;
+function seg(id,items,cur,cb,tagged){const el=$(id);el.innerHTML="";items.forEach(([v,t])=>{const b=document.createElement("button");b.type="button";b.textContent=t;b.setAttribute("aria-pressed",String(v===cur));if(tagged&&NAME[v])b.dataset.s=v;b.onclick=()=>cb(v);el.appendChild(b)})}
 function freeSet(seq){const s=new Set();DATA.days.forEach((d,i)=>{if(d[2]===5&&i+1<365&&"RF".includes(seq[i])&&"RF".includes(seq[i+1])&&(i===0||seq[i-1]!=="N")){s.add(i);s.add(i+1)}});return s}
 const FREE={};KEYS.forEach(k=>FREE[k]=DATA[k].map(freeSet));
+const fmt=x=>Number.isInteger(x)?String(x):x.toFixed(1).replace(".",",");
 function renderCal(){
   const sqItems=[[0,"Tutte"],...[1,2,3,4,5].map(i=>[i,SQ[i-1]])];
   if(view==="confronto"&&squad===0)squad=1;
-  seg("ctl-view",VIEWS,view,v=>{view=v;save();renderCal()});
+  seg("ctl-view",VIEWS,view,v=>{view=v;save();renderCal()},true);
   seg("ctl-squad",view==="confronto"?sqItems.slice(1):sqItems,squad,v=>{squad=v;save();renderCal()});
   $("mlabel").textContent=MESI[month]+" 2027";
   const idx=DATA.days.map((d,i)=>[d,i]).filter(([d])=>d[0]===month+1);
-  let h="<tr><th></th>"+idx.map(([d])=>`<th class="d ${d[3]===2?"stop":d[3]===1?"hol":d[2]>=5?"we":""}">${d[1]}</th>`).join("")+"</tr>";
-  h+="<tr><th></th>"+idx.map(([d])=>`<th class="${d[2]>=5?"we":""}">${WD[d[2]]}</th>`).join("")+"</tr>";
-  const row=(label,k,s)=>`<tr><th class="rowh">${label}</th>`+idx.map(([d,i])=>cell(DATA[k][s][i],FREE[k][s].has(i)?"wfree":"")).join("")+"</tr>";
-  if(view==="confronto"){KEYS.forEach(k=>{h+=row(NAME[k],k,squad-1)})}
-  else{(squad?[squad-1]:[0,1,2,3,4]).forEach(s=>{h+=row("Squadra "+SQ[s],view,s)})}
+  let h=`<tr><th class="corner"></th>`+idx.map(([d])=>`<th class="d ${d[3]===2?"stop":d[3]===1?"hol":d[2]>=5?"we":""}">${d[1]}</th>`).join("")+"</tr>";
+  h+=`<tr><th class="corner"></th>`+idx.map(([d])=>`<th class="${d[2]>=5?"we":""}">${WD[d[2]]}</th>`).join("")+"</tr>";
+  const row=(label,k,s,tag)=>`<tr><th class="rowh"${tag?` data-s="${k}"`:""}>${tag?`<span class="tag">${label}</span>`:label}</th>`+idx.map(([d,i])=>cell(DATA[k][s][i],FREE[k][s].has(i)?"wfree":"")).join("")+"</tr>";
+  const rows=view==="confronto"?KEYS.map(k=>[k,squad-1,NAME[k],true]):(squad?[squad-1]:[0,1,2,3,4]).map(s=>[view,s,"Squadra "+SQ[s],false]);
+  rows.forEach(([k,s,l,t])=>{h+=row(l,k,s,t)});
   $("cal").innerHTML=h;
-  const sq=squad?[squad-1]:[0,1,2,3,4];
+  // month summary table
+  const ks=view==="confronto"?KEYS:[view];
+  const sq=view==="confronto"?[squad-1]:(squad?[squad-1]:[0,1,2,3,4]);
   const cnt=(k,f)=>sq.reduce((a,s)=>a+idx.filter(([d,i])=>f(DATA[k][s][i])).length,0)/sq.length;
   const fw=k=>sq.reduce((a,s)=>a+idx.filter(([d,i])=>d[2]===5&&FREE[k][s].has(i)).length,0)/sq.length;
-  const fmt=x=>Number.isInteger(x)?x:x.toFixed(1).replace(".",",");
-  const who=squad?"squadra "+SQ[squad-1]:"media squadre";
-  const ks=view==="confronto"?KEYS:[view];
-  const box=(lab,f)=>`<div class="kpi"><span class="lab">${lab} · ${MESI[month]}, ${who}</span>${ks.length>1?`<div class="kpi3">${ks.map(k=>`<div class="${k==="vecchio"?"o":""}"><b>${fmt(f(k))}</b><small>${NAME[k]}</small></div>`).join("")}</div>`:`<span class="val">${fmt(f(ks[0]))}</span>`}</div>`;
-  $("calsum").innerHTML=box("Weekend liberi",fw)+box("Giorni di presenza",k=>cnt(k,c=>"MPNGA".includes(c)))+box("Notti",k=>cnt(k,c=>c==="N"))+box("Giornate G o A",k=>cnt(k,c=>c==="G"||c==="A"));
+  const who=view==="confronto"||squad?"squadra "+SQ[sq[0]]:"media delle squadre";
+  let m=`<thead><tr><th>${MESI[month]} · ${who}</th><th>Weekend liberi</th><th>Presenze</th><th>Notti</th><th>Giornate G o A</th></tr></thead><tbody>`;
+  ks.forEach(k=>{m+=`<tr><td data-s="${k}"><span class="tag">${NAME[k]}</span></td><td>${fmt(fw(k))}</td><td>${fmt(cnt(k,c=>"MPNGA".includes(c)))}</td><td>${fmt(cnt(k,c=>c==="N"))}</td><td>${fmt(cnt(k,c=>c==="G"||c==="A"))}</td></tr>`});
+  $("msum").innerHTML=m+"</tbody>";
 }
-function save(){store.set("tv5",view);store.set("tq",String(squad));store.set("tm",String(month))}
+function save(){store.set("tv7",view);store.set("tq",String(squad));store.set("tm",String(month))}
 $("prev").onclick=()=>{month=(month+11)%12;save();renderCal()};
 $("next").onclick=()=>{month=(month+1)%12;save();renderCal()};
 renderCal();
 
+/* comparison table */
 let sq2=0;
 function renderCmp(){
   seg("ctl-squad2",[[0,"Media"],...[1,2,3,4,5].map(i=>[i,"Squadra "+SQ[i-1]])],sq2,v=>{sq2=v;renderCmp()});
-  const g=(k,f)=>sq2?DATA.stats[k][sq2-1][f]:avg(k,f);
+  const g=(k,f)=>sq2?DATA.stats[k][sq2-1][f]:(f==="fila"?Math.max(...DATA.stats[k].map(s=>s[f])):avg(k,f));
   const rows=[["Weekend tutti liberi","weekend",1],["Weekend lunghi, 3 giorni o più","lunghi",1],["Sabati e domeniche di smonto","we_smonto",-1],["Sabati e domeniche lavorati","we_lav",-1],["Notti","notti",-1],["Riposi infrasettimanali","rip_infra",1],["Giornate G o A, con 2 squadre in mattina","g",0],["Giorni di presenza","presenze",-1],["Giorni di lavoro di fila, massimo","fila",-1]];
-  let h=`<tr><th>Nel 2027</th>${KEYS.map(k=>`<th>${NAME[k]}</th>`).join("")}</tr>`;
+  let h=`<thead><tr><th>Nel 2027</th>${KEYS.map(k=>`<th data-s="${k}"><span class="tag">${NAME[k]}</span></th>`).join("")}</tr></thead><tbody>`;
   rows.forEach(([l,f,sign])=>{const v=KEYS.map(k=>r0(g(k,f)));
     const nv=v.slice(1),best=sign===0?null:(sign>0?Math.max(...nv):Math.min(...nv)),allEq=nv.every(x=>x===nv[0]);
-    h+=`<tr><td>${l}</td>${v.map((x,j)=>`<td class="n ${j>0&&best!==null&&x===best&&!allEq?"best":""}">${x}</td>`).join("")}</tr>`});
-  $("cmp").innerHTML=h;
+    h+=`<tr><td>${l}</td>${v.map((x,j)=>`<td class="n ${KEYS[j]} ${j>0&&best!==null&&x===best&&!allEq?"best":""}">${x}</td>`).join("")}</tr>`});
+  $("cmp").innerHTML=h+"</tbody>";
 }
 renderCmp();
 </script>
